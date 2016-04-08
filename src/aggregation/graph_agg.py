@@ -3,6 +3,8 @@ import math
 
 if __name__ == "__main__":
 
+  #references from here: http://www.math.cornell.edu/~mec/Winter2009/RalucaRemus/Lecture3/lecture3.html
+
   # assuming input will come in row by row of format "worse, better"
   inputs = [[0, 1], [1, 2], [0, 1], [0, 1], [1, 2], [2, 1], [0, 2], [2,0], [0,2]]
   # also assuming we have some input telling us how many pictures there are to be sorted
@@ -14,8 +16,7 @@ if __name__ == "__main__":
     a.append([0.0] * n)
   # a = [[1,2,3],[4,5,6],[7,8,9]]
   for inp in inputs:
-    a[inp[0]][inp[1]] += 1
-  print a
+    a[inp[1]][inp[0]] += 1
 
   for i in xrange(0, n):
     s = 0
