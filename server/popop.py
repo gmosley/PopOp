@@ -15,5 +15,9 @@ def vote():
     # return a rendered template with images
     abort(418)
 
+@app.route("/upload")
+def upload():
+    return render_template('dropzone.html')
+
 if __name__ == "__main__":
     app.run(debug=True)
