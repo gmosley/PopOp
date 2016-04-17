@@ -15,7 +15,7 @@ class ImageSet(Base):
         self.tag = tag
 
     def __repr__(self):
-        return '<ImageSet %d:(owner: %d description: %r)>' % (self.id) % (self.user_id) % (self.description)
+        return '<ImageSet %d:(owner: %d description: %r)>' % (self.id, self.user_id, self.description)
 
 class Image(Base):
     __tablename__ = 'images'
@@ -31,7 +31,7 @@ class Image(Base):
         self.reports = 0
 
     def __repr__(self):
-        return '<Image(set: %d address: %r)>' % (self.set_id) % (self.address)
+        return '<Image(set: %d address: %r)>' % (self.set_id, self.address)
 
 class Job(Base):
     __tablename__ = 'jobs'
@@ -51,7 +51,7 @@ class Job(Base):
         self.done = False
 
     def __repr__(self):
-        return '<Job %d:(order: %r done: %d)>' % (self.id) % (self.order) % int(self.done)
+        return '<Job %d:(order: %r done: %b)>' % (self.id, self.order, self.done)
 
 class Result(Base):
     __tablename__ = 'results'
@@ -75,7 +75,7 @@ class Result(Base):
 
     def __repr__(self):
         return "<Result(1:%r 2:%r 3:%r finish_time: %r worker_id:%r)>" \
-        % (self.first) % (self.second) % (self.third) % (self.finish_time) % (self.worker_id)
+        % (self.first) % (self.second) % (self.third, self.finish_time, self.worker_id)
 
 class User(Base):
     __tablename__ = 'users'
