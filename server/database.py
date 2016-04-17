@@ -65,9 +65,14 @@ def getImagesforNextJob(tag=''):
 # Returns: The id of the result, or False if failed
 def createResult(job_id, worker_id, first, second, third):
     try:
+        job = Job.query.filter(Job.id == job_id).first()
+        job.done = True
+
         set_id = Job.query.filter(Job.id == job_id).first().set_id
         finish_time = datetime.now()
         result = Result(set_id, worker_id, finish_time, first, second, third)
+
+        db_session.add(job)
         db_session.add(result)
         db_session.commit()
         return result.id
