@@ -51,7 +51,7 @@ class Job(Base):
         self.done = False
 
     def __repr__(self):
-        return '<Job %d:(order: %r done: %b)>' % (self.id, self.order, self.done)
+        return '<Job %d:(set_id: %d done: %b)>' % (self.id, self.set_id, self.done)
 
 class Result(Base):
     __tablename__ = 'results'
