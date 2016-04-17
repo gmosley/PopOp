@@ -16,8 +16,8 @@ def init_db():
     import models
     Base.metadata.create_all(bind=engine)
 
-
 from models import ImageSet, Image, Job, Result, User
+
 # Expects owner id, list of image addresses, and a description.
 # Returns: id of newly created ImageSet, false if failed
 def newRequest(owner, image_addresses, description):
@@ -43,6 +43,20 @@ def generateJobs(imageset_id):
             db_session.add(job)
         db_session.commit()
         return True
+    except Exception, e:
+        return False
+
+# Gets images for next availiable job
+# Takes in a tag, which is empty by default
+# Returns: List of image addresses, False if failed
+def getImagesforNextJob(tag=''):
+    try:
+        job = Job.query.filter(!Job.done).first()
+        images = []
+        image.append(Image.query.filter(Image.id == job.img1).first())
+        image.append(Image.query.filter(Image.id == job.img2).first())
+        image.append(Image.query.filter(Image.id == job.img3).first())
+        return images 
     except Exception, e:
         return False
 
