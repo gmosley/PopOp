@@ -1,7 +1,6 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-from models import ImageSet, Image, Job, Result, User
 from datetime import datetime
 
 engine = create_engine('sqlite:////tmp/test.db', convert_unicode=True)
@@ -17,6 +16,8 @@ def init_db():
     import models
     Base.metadata.create_all(bind=engine)
 
+
+from models import ImageSet, Image, Job, Result, User
 # Expects owner id, list of image addresses, and a description.
 # Returns: id of newly created ImageSet, false if failed
 def newRequest(owner, image_addresses, description):
