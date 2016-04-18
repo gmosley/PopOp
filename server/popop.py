@@ -31,11 +31,15 @@ def vote():
     # TODO: parse args to get tags
 
     # no matter what, get a new set of images
-    job_id, set_id, description, images = database.getImagesforNextJob()
-    session['job_id'] = job_id
-    session['set_id'] = set_id
-    return render_template('vote.html', description=description,
-        img_1=images[0], img_2=images[1], img_3=images[2])
+    result = database.getImagesforNextJob()
+    if result:
+        job_id, set_id, description, images = result
+        session['job_id'] = job_id
+        session['set_id'] = set_id
+        return render_template('vote.html', description=description,
+            img_1=images[0], img_2=images[1], img_3=images[2])
+
+    return render_template('nomore.html')
 
 # need to figure out file uploading
 

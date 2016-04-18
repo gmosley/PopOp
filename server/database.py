@@ -59,7 +59,6 @@ def getImagesforNextJob(tag=''):
         images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img3).first()[0])
         return (job.id, job.set_id, description, images)
     except Exception, e:
-        print e
         return False
 
 # Create a result, expects job id, worker id, and the order
