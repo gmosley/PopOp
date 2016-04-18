@@ -22,8 +22,8 @@ def vote():
         abort(418)
         pass
 
-    images = database.getImagesforNextJob()
-    print images
+    job_id, images = database.getImagesforNextJob()
+    return render_template('vote.html', job_id=job_id, img_1=images[0], img_2=images[1], img_3=images[2])
     # get a job from DB
     # return a rendered template with images
     abort(418)
