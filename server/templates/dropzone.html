@@ -72,6 +72,7 @@
           maxFiles: 10,
           thumbnailWidth: null,
           thumbnailHeight: 200,
+          acceptedFiles: ".jpg,.png,.jpeg,.tiff,.gif,.bmp,.svg,.jpe",
           // renameFilename: cleanFilename,
 
           // The setting up of the dropzone
@@ -93,7 +94,12 @@
               });
 
               this.on("successmultiple", function(photos, response) {
-                  photos.previewTemplate.appendChild(document.createTextNode("Successfully Uploaded!"));
+                  for (var i = photos.length - 1; i >= 0; i--) {
+                      if (cnt == false) {
+                          photos[i].previewTemplate.appendChild(document.createTextNode("Success!"));
+                      }
+                  }
+                  cnt = true;
               });
 
               var cnt = false;
