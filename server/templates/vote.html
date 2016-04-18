@@ -11,7 +11,11 @@
 
   <title>Vote</title>
 
+  <!-- jQuery -->
   <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+  <!-- jQueryUI -->
+  <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
   <!-- Latest compiled and minified JavaScript -->
@@ -24,6 +28,7 @@
   <![endif]-->
 
   <link rel="stylesheet" type="text/css" href="../static/vote.css">
+  <link rel="stylesheet" type="text/css" href="../static/footer-basic-centered.css">
 
   <title>Vote</title>
   <script type="text/javascript">
@@ -32,12 +37,89 @@
     var img3 = "{{ img_3 }}"
     var description = "This is a description that tells you what to vote on."
 
-    img1 = "https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiFnaLQ-ZbMAhVIaT4KHam9BEUQjRwIBw&url=https%3A%2F%2Ftwitter.com%2Fcutepicsofcats&psig=AFQjCNGMecmLnz2t5POOBkQMc9yL25--jA&ust=1461026403901242"
-    img2 = "https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwiFnaLQ-ZbMAhVIaT4KHam9BEUQjRwIBw&url=https%3A%2F%2Ftwitter.com%2Fcutepicsofcats&psig=AFQjCNGMecmLnz2t5POOBkQMc9yL25--jA&ust=1461026403901242"
-    img3 = "https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=0ahUKEwi-nKvY-ZbMAhVMGD4KHT4XDYYQjRwIBw&url=http%3A%2F%2Fwww.topdreamer.com%2F22-photos-cute-cats-with-sunglasses%2F&psig=AFQjCNGMecmLnz2t5POOBkQMc9yL25--jA&ust=1461026403901242"
+    img1 = "https://pbs.twimg.com/profile_images/567285191169687553/7kg_TF4l.jpeg"
+    img2 = "http://www.fndvisions.org/img/cutecat.jpg"
+    img3 = "https://pbs.twimg.com/profile_images/571260078292865024/0EvP5vXn.jpeg"
 
+    var list = []
     var onload = function() {
       $('#descrip').html(description);
+
+      $('#1').html(generateImg(img1));
+      $('#2').html(generateImg(img2));
+      $('#3').html(generateImg(img3));
+
+      $('#1').click(function() {
+        console.log("1 clicked");
+        clickedImage(1);
+      });
+
+      $('#2').click(function() {
+        console.log("2 clicked");
+        clickedImage(2)
+      });
+
+      $('#3').click(function() {
+        console.log("3 clicked");
+        clickedImage(3)
+      });
+
+      $('#submit_form').bind('submit', submit);
+    }
+
+    var generateImg = function(img) {
+      return '<img class="fill" src="' + img + '">';
+    }
+
+    var clickedImage = function(num) {
+      if (list.length <= 0) {
+        $('#prompt').attr('hidden', true);
+      }
+      if (list.indexOf(num) < 0) {
+        list.push(num);
+        html = '<li class="ui-state-default" id=sort' + num + '>';
+        html += $('#' + num).html() + '</li>';
+        $('#sortable').append(html);
+        // set remove function
+        $('#sort' + num).dblclick(function() {
+          removeItem(num);
+        });
+        $( '#sortable' ).sortable();
+        $( '#sortable' ).disableSelection();
+      }
+    }
+
+    var calcList = function() {
+      list = []
+      console.log($('#sortable').children());
+      $('#sortable').children('li').each(function() {
+        id = $( this ).attr('id')
+        if (id) {
+          id = id.replace(/\D/g,'');
+          list.push(id)
+        }
+      });
+    }
+
+    var removeItem = function(num) {
+      if (list.indexOf(num) >= 0) {
+        list.splice(list.indexOf(num),1);
+        $('#sort' + num).remove();
+        if (list.length <= 0) {
+          $('#prompt').attr('hidden', false);
+        }
+      }
+    }
+
+    var submit = function() {
+      console.log('submit');
+      calcList();
+      if (list.length < 3) {
+        alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Please rank all the items!</strong></div>';
+        $('#error_div').html(alert);
+        return false;
+      }
+      return false;
     }
 
     document.onload = function() {
@@ -76,25 +158,49 @@
 <div class="container-fluid main">
   <h1>Work</h1>
   <h3 id="descrip"></h3>
-
   <div class="col-md-12 well interact">
-      <ul id="sortable">
-        <li class="ui-state-default"><img src='http://static.ddmcdn.com/gif/penguin-slideshow-141121-78754162.jpg' width=100px></li>
-        <li class="ui-state-default">2</li>
-        <li class="ui-state-default">3</li>
-      </ul>
+    <div class="col-md-1">
+      <h3>Best</h3>
+    </div>
+    <div class="col-md-10">
+      <h3 id=prompt>Click the images below to rank them from best to not so best, and double-click to remove them. You can also drag them around if you change your mind!</h3>
+      <ul id="sortable"></ul>
+    </div>
+    <div class="col-md-1">
+      <h3>Worst</h3>
+    </div>
   </div>
   <br/>
   <div class="col-md-12 well interact">
     <ul id="selectable">
-      <li class="ui-state-default"><img src='http://static.ddmcdn.com/gif/penguin-slideshow-141121-78754162.jpg' width=100px></li>
-      <li class="ui-state-default">2</li>
-      <li class="ui-state-default">3</li>
+      <li class="ui-state-default" id=1></li>
+      <li class="ui-state-default" id=2></li>
+      <li class="ui-state-default" id=3></li>
     </ul>
   </div>
-
-
+  <div class="col-md-12" id="error_div">
+  </div>
+  <form id="submit_form">
+    <button type="submit" class="btn btn-primary btn-lg" style="float: right;">Submit</button>
+  </form>
 </div>
+
+<footer class="footer-basic-centered">
+  <p class="footer-company-motto">Get PopOppin'</p>
+  <p style="font-weight: lighter; color: #777; margin-bottom: -15px;">None of these work...</p>
+  <p class="footer-links">
+    <a href="#">Home</a>
+    ·
+    <a href="#">Blog</a>
+    ·
+    <a href="#">About</a>
+    ·
+    <a href="#">Faq</a>
+    ·
+    <a href="#">Contact</a>
+  </p>
+  <p class="footer-company-name">PopOp &copy; 2016</p>
+</footer>
 
 </body>
 
