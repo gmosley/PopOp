@@ -3,6 +3,8 @@ from werkzeug import secure_filename
 import json
 import os
 import database
+import boto
+from uuid import uuid4
 
 UPLOAD_FOLDER = 'images/'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
@@ -45,7 +47,28 @@ def upload():
     if request.method == 'GET':
         return render_template('dropzone.html')
     
-    print request.files
+    c = boto.connect_s3()
+    b = c.get_bucket('popop-uploads')
+
+    description = request.form.get('description')
+
+    image_files = []
+    for file_id in request.files:
+        file = request.files[file_id]
+        img_type = file.content_type.split('/')[1]
+        if img_type in ['png', 'jpg', 'jpeg']:
+            dst_file = uuid4().hex + '.' + img_type
+            key = b.new_key(dst_file)
+            key.content_type= file.content_type
+            key.set_contents_from_string(file.read())
+            key.set_acl('public-read')
+            image_files.append('https://s3.amazonaws.com/popop-uploads/' + dst_file)
+
+    if image_files:
+        set_id = database.newRequest(1, image_files, description)
+        database.generateJobs(set_id)
+        return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+
     abort(400)
     
 
