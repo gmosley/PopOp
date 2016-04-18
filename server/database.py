@@ -52,11 +52,12 @@ def generateJobs(imageset_id):
 def getImagesforNextJob(tag=''):
     try:
         job = Job.query.filter(Job.done == False).first()
+        description = ImageSet.query.with_entities(ImageSet.description).filter(ImageSet.id == job.set_id).first()[0]
         images = []
         images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img1).first()[0])
         images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img2).first()[0])
         images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img3).first()[0])
-        return (job.id, images)
+        return (job.id, description, images)
     except Exception, e:
         return False
 

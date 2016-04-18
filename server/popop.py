@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, session, request, abort
 from werkzeug import secure_filename
 import json
 import os
@@ -9,7 +9,12 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+# needs to actually be secret in production
+app.secret_key = 'swordfish' 
+
+# must be false in production
 app.debug = True
+
 
 @app.route("/")
 def index():
@@ -18,15 +23,22 @@ def index():
 @app.route("/vote", methods=['GET', 'POST'])
 def vote():
     if request.method == 'POST':
-        # record the vote
-        abort(418)
-        pass
+        if 'job_id' in session:
+            # record the vote
+            createResult(session['job_id'], 1, request.form['first'],
+                request.form['second'], request.form['third'])
+        else:
+            abort(400) 
+    
+    # TODO: parse args to get tags
 
-    job_id, images = database.getImagesforNextJob()
-    return render_template('vote.html', job_id=job_id, img_1=images[0], img_2=images[1], img_3=images[2])
-    # get a job from DB
-    # return a rendered template with images
-    abort(418)
+    # no matter what, get a new set of images
+    job_id, description, images = database.getImagesforNextJob()
+    session['job_id'] = job_id
+    return render_template('vote.html', description=description,
+        img_1=images[0], img_2=images[1], img_3=images[2])
+
+# need to figure out file uploading
 
 @app.route("/upload")
 def create_job():
