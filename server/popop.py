@@ -40,27 +40,33 @@ def vote():
 
 # need to figure out file uploading
 
-@app.route("/upload")
-def create_job():
-    return render_template('dropzone.html')
+@app.route("/upload", methods=['GET','POST'])
+def upload():
+    if request.method == 'GET':
+        return render_template('dropzone.html')
+    
+    print request.files
+    abort(400)
+    
+
 
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
 
-@app.route("/target", methods=['POST'])
-def upload():
-    print request.files
-    file = request.files['file']
-    if file and allowed_file(file.filename):
-        # TODO: add requestid or cookie to filename
-        filename = secure_filename(file.filename)
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        print filename
-        return json.dumps({'success':True, 'filename': filename}), 200, {'ContentType':'application/json'}
-        # TODO: extra file parsing - resize, conversion, nudity
-    else:
-        return json.dumps({'error': "BAD REQUEST"}), 200, {'ContentType':'application/json'}
+# @app.route("/target", methods=['POST'])
+# def upload():
+#     print request.files
+#     file = request.files['file']
+#     if file and allowed_file(file.filename):
+#         # TODO: add requestid or cookie to filename
+#         filename = secure_filename(file.filename)
+#         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+#         print filename
+#         return json.dumps({'success':True, 'filename': filename}), 200, {'ContentType':'application/json'}
+#         # TODO: extra file parsing - resize, conversion, nudity
+#     else:
+#         return json.dumps({'error': "BAD REQUEST"}), 200, {'ContentType':'application/json'}
 
 if __name__ == "__main__":
     app.run()
