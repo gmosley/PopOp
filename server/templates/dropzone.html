@@ -1,52 +1,110 @@
 <!doctype html>
-<script type="text/javascript" src="{{ url_for('static', filename='dropzone.js') }}"></script>
-<link rel=stylesheet type=text/css href="{{ url_for('static', filename='dropzone.css') }}">
-<form id="my-awesome-dropzone" action="/target" class="dropzone">
-	<div class="dropzone-previews"></div> <!-- this is were the previews should be shown. -->
-	<div class="submit-div">
-		<button id="submit" class="button" type="submit">Submit pictures for review!</button>
-	</div>
-</form>
+<head>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-32x32.png') }}" sizes="32x32">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-96x96.png') }}" sizes="96x96">
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon-16x16.png') }}" sizes="16x16">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
 
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-<script type="text/javascript" >
-	Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the form element
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 
-  // The configuration we've talked about above
-  autoProcessQueue: false,
-  uploadMultiple: true,
-  parallelUploads: 100,
-  maxFiles: 10,
-  thumbnailWidth: null,
-  thumbnailHeight: 200,
+  <script type="text/javascript" src="{{ url_for('static', filename='dropzone.js') }}"></script>
+  <link rel=stylesheet type=text/css href="{{ url_for('static', filename='dropzone.css') }}">
+</head>
+<body>
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+      <div class="container">
+          <div class="navbar-header">
+              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">PopOp</a>
+          </div>
+          <div id="navbar" class="collapse navbar-collapse">
+              <ul class="nav navbar-nav">
+                  <li class="active"><a href="#">Home</a>
+                  </li>
+                  <li><a href="#about">About</a>
+                  </li>
+                  <li><a href="#contact">Contact</a>
+                  </li>
+              </ul>
+          </div>
+          <!--/.nav-collapse -->
+      </div>
+  </nav>
+  <div class="title">
+      <h2><b> Submit images to be rated!</b></h2>
+  </div>
+  <div>
+      <form id="my-awesome-dropzone" action="/upload" class="dropzone form-horizontal form-group">
+          <label for="requirement">Rating Criteria</label>
+          <input class="form-control" type="text" name="description" id="requirement">
+          <button id="submit" class="btn btn-default" type="submit">Get PopOp'd!</button>
+          <hr>
+          <div class="dropzone-previews"></div>
+      </form>
+  </div>
+  <div class="instructions">
+      <h4>submit up to 10 images to be ranked by the crowd!</h4>
+  </div>
+  <script type="text/javascript">
+      var cnt = 0;
+      var cleanFilename = function(name) {
+          name.split('.')[1]
+          return (cnt += 1) + "." + name.split('.')[1];
+      };
 
-  // The setting up of the dropzone
-  init: function() {
-    var myDropzone = this;
+      Dropzone.options.myAwesomeDropzone = { // The camelized version of the ID of the form element
 
-    // First change the button to actually tell Dropzone to process the queue.
-    this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
-      // Make sure that the form isn't actually being sent.
-      e.preventDefault();
-      e.stopPropagation();
-      myDropzone.processQueue();
-    });
+          // The configuration we've talked about above
+          paramName: "file",
+          autoProcessQueue: false,
+          uploadMultiple: true,
+          parallelUploads: 10,
+          maxFiles: 10,
+          thumbnailWidth: null,
+          thumbnailHeight: 200,
+          // renameFilename: cleanFilename,
 
-    // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
-    // of the sending event because uploadMultiple is set to true.
-    this.on("sendingmultiple", function() {
+          // The setting up of the dropzone
+          init: function() {
+              var myDropzone = this;
 
-    });
-    this.on("successmultiple", function(files, response) {
-      // Gets triggered when the files have successfully been sent.
-      // Redirect user or notify of success.
-    });
-    this.on("errormultiple", function(files, response) {
-      // Gets triggered when there was an error sending the files.
-      // Maybe show form again, and notify user of error
-    });
-  }
+              // First change the button to actually tell Dropzone to process the queue.
+              this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
+                  // Make sure that the form isn't actually being sent.
+                  e.preventDefault();
+                  e.stopPropagation();
+                  myDropzone.processQueue();
+              });
 
-}
-</script>
-<!-- <img src="removebutton.png" alt="Click me to remove the file." data-dz-remove /> -->
+              // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
+              // of the sending event because uploadMultiple is set to true.
+              this.on("sendingmultiple", function() {
+                  // window.location = "http://www.youtube.com";
+              });
+
+              this.on("successmultiple", function(photos, response) {
+                  photos.previewTemplate.appendChild(document.createTextNode("Successfully Uploaded!"));
+              });
+
+              var cnt = false;
+              this.on("errormultiple", function(photos, response) {
+                  for (var i = photos.length - 1; i >= 0; i--) {
+                      if (cnt == false) {
+                          photos[i].previewTemplate.appendChild(document.createTextNode("error:  mouseover for info"));
+                      }
+                  }
+                  cnt = true;
+              });
+          }
+
+      }
+  </script>
+</body>
