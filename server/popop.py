@@ -27,7 +27,7 @@ def vote():
     if request.method == 'POST':
         if 'job_id' in session:
             # record the vote
-            createResult(session['job_id'], 1, request.form['first'],
+            database.createResult(session['job_id'], 1, request.form['first'],
                 request.form['second'], request.form['third'])
         else:
             abort(400) 
