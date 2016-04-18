@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, abort
+from flask import Flask, render_template, session, request, abort
 from werkzeug import secure_filename
 import json
 import os
@@ -9,7 +9,10 @@ ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
 
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.secret_key = 'swordfish'
+
 app.debug = True
+
 
 @app.route("/")
 def index():
@@ -18,12 +21,16 @@ def index():
 @app.route("/vote", methods=['GET', 'POST'])
 def vote():
     if request.method == 'POST':
-        # record the vote
-        abort(418)
-        # createResult(job_id, worker_id, first, second, third):
+        if 'job_id' in session:
+            # record the vote
+            # createResult(job_id, worker_id, first, second, third):
         pass
-
+           pass
+        else:
+            abort(400) 
+       
     job_id, description, images = database.getImagesforNextJob()
+    session['job_id'] = job_id
     return render_template('vote.html', description=description, img_1=images[0], img_2=images[1], img_3=images[2])
 
 @app.route("/upload")
