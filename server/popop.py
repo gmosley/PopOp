@@ -6,11 +6,7 @@ import database
 import boto
 from uuid import uuid4
 
-UPLOAD_FOLDER = 'images/'
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
-
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 # needs to actually be secret in production
 app.secret_key = 'swordfish' 
 
@@ -65,32 +61,12 @@ def upload():
             key.set_acl('public-read')
             image_files.append('https://s3.amazonaws.com/popop-uploads/' + dst_file)
 
-    if image_files:
+    if len(image_files) >= 3:
         set_id = database.newRequest(1, image_files, description)
         database.generateJobs(set_id)
         return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
 
     abort(400)
     
-
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-# @app.route("/target", methods=['POST'])
-# def upload():
-#     print request.files
-#     file = request.files['file']
-#     if file and allowed_file(file.filename):
-#         # TODO: add requestid or cookie to filename
-#         filename = secure_filename(file.filename)
-#         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-#         print filename
-#         return json.dumps({'success':True, 'filename': filename}), 200, {'ContentType':'application/json'}
-#         # TODO: extra file parsing - resize, conversion, nudity
-#     else:
-#         return json.dumps({'error': "BAD REQUEST"}), 200, {'ContentType':'application/json'}
-
 if __name__ == "__main__":
     app.run()
