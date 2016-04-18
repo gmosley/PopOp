@@ -67,7 +67,7 @@
         clickedImage(3)
       });
 
-      $('#submit_form').bind('submit', submit);
+      $('#submit_form').bind('onsubmit', submit);
     }
 
     var generateImg = function(img) {
@@ -126,9 +126,12 @@
       $('#second_input').val(addresses[list[1] - 1]);
       $('#third_input').val(addresses[list[2] - 1]);
       // $('#submit_form').submit();
-      $.post('/vote', $('#submit_form').serialize());
+      // $.post('/vote', $('#submit_form').serialize())
+      // .done(function() {
+
+      // });
       // return true;
-      return false;
+      return true;
     }
 
     document.onload = function() {
@@ -189,7 +192,7 @@
   </div>
   <div class="col-md-12" id="error_div">
   </div>
-  <form id="submit_form">
+  <form method='post' id="submit_form">
     <input id='first_input' name='first' hidden="true"></input>
     <input id='second_input' name='second' hidden="true"></input>
     <input id='third_input' name='third' hidden="true"></input>

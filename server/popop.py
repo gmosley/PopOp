@@ -25,9 +25,9 @@ def index():
 @app.route("/vote", methods=['GET', 'POST'])
 def vote():
     if request.method == 'POST':
-        if 'job_id' in session:
+        if 'set_id' in session and 'job_id' in session:
             # record the vote
-            database.createResult(session['job_id'], 1, request.form['first'],
+            database.createResult(session['job_id'], session['set_id'], 1, request.form['first'],
                 request.form['second'], request.form['third'])
         else:
             abort(400) 
@@ -35,8 +35,9 @@ def vote():
     # TODO: parse args to get tags
 
     # no matter what, get a new set of images
-    job_id, description, images = database.getImagesforNextJob()
+    job_id, set_id, description, images = database.getImagesforNextJob()
     session['job_id'] = job_id
+    session['set_id'] = set_id
     return render_template('vote.html', description=description,
         img_1=images[0], img_2=images[1], img_3=images[2])
 

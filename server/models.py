@@ -59,7 +59,7 @@ class Result(Base):
     id = Column(Integer, primary_key=True)
     set_id = Column(Integer, ForeignKey('imagesets.id'), nullable=False)
     worker_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    job_id = Column(Integer, ForeignKey('jobs.id'), nullable=False)
+    # job_id = Column(Integer, ForeignKey('jobs.id'), nullable=False)
     finish_time = Column(DateTime, nullable=False)
     first = Column(Integer, ForeignKey('images.id'), nullable=False)
     second = Column(Integer, ForeignKey('images.id'), nullable=False)
@@ -74,8 +74,8 @@ class Result(Base):
         self.third = third
 
     def __repr__(self):
-        return "<Result(1:%r 2:%r 3:%r finish_time: %r worker_id:%r)>" \
-        % (self.first) % (self.second) % (self.third, self.finish_time, self.worker_id)
+        return "<Result(1:%r 2:%r 3:%r finish_time:%r worker_id:%d set_id:%d)>" \
+        % (self.first, self.second, self.third, self.finish_time, self.worker_id, self.set_id)
 
 class User(Base):
     __tablename__ = 'users'
@@ -94,4 +94,4 @@ class User(Base):
         self.points = 0
 
     def __repr__(self):
-        return '<User %r>' % (self.name)
+        return '<User %r %r %d>' % (self.first_name, self.last_name, self.points)

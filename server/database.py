@@ -57,19 +57,18 @@ def getImagesforNextJob(tag=''):
         images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img1).first()[0])
         images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img2).first()[0])
         images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img3).first()[0])
-        return (job.id, description, images)
+        return (job.id, job.set_id, description, images)
     except Exception, e:
+        print e
         return False
 
 # Create a result, expects job id, worker id, and the order
 # of the images.
 # Returns: The id of the result, or False if failed
-def createResult(job_id, worker_id, first, second, third):
+def createResult(job_id, set_id, worker_id, first, second, third):
     try:
         job = Job.query.filter(Job.id == job_id).first()
         job.done = True
-
-        set_id = Job.query.filter(Job.id == job_id).first().set_id
         finish_time = datetime.now()
         result = Result(set_id, worker_id, finish_time, first, second, third)
 
