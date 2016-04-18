@@ -84,7 +84,14 @@
                   // Make sure that the form isn't actually being sent.
                   e.preventDefault();
                   e.stopPropagation();
-                  myDropzone.processQueue();
+                  
+                  if (myDropzone.getQueuedFiles().length >= 3) { 
+                      myDropzone.processQueue();
+                  }
+                  else {
+                    alert("Not enough files!\nYou can upload a minimum of 3");
+                  }
+
               });
 
               // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
@@ -100,6 +107,12 @@
                       }
                   }
                   cnt = true;
+                  var r = confirm("Files successfully uploaded!\nHit OK to return to the homepage, or cancel to upload another set");
+                  if (r) {
+                    location = "http://" + location.hostname;
+                  } else {
+                    location.reload(true);
+                  }
               });
 
               var cnt = false;

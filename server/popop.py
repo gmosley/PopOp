@@ -69,8 +69,8 @@ def upload():
         set_id = database.newRequest(1, image_files, description)
         database.generateJobs(set_id)
         return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
-
-    abort(400)
+    else:
+        return "Not enough image files!", 400
     
 if __name__ == "__main__":
     app.run()
