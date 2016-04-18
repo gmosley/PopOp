@@ -1,0 +1,57 @@
+body {
+  padding-top: 50px;
+}
+
+h3 {
+  color: #777;
+  font-weight: lighter;
+}
+
+.main {
+  padding-left: 180px;
+  padding-right: 180px;
+}
+
+.interact {
+  text-align: center;
+}
+
+#sortable { 
+  list-style-type: none; 
+  margin: auto; 
+  padding: 0;
+  width: 90%;
+}
+#sortable li 
+{
+  margin: 3px 3px 3px 0;
+  padding: 1px; 
+  float: left; 
+  width: 200px; 
+  height: 200px; 
+  border-color: red;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 4em; 
+  text-align: center; 
+}
+
+#selectable { 
+  list-style-type: none; 
+  margin: 0; 
+  padding: 0;
+  width: 100%;
+}
+#selectable li 
+{
+  margin: 3px 3px 3px 0;
+  padding: 1px; 
+  float: left; 
+  width: 200px; 
+  height: 200px; 
+  border-color: red;
+  border-width: 1px;
+  border-style: solid;
+  font-size: 4em; 
+  text-align: center; 
+}
