@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, abort
 from werkzeug import secure_filename
 import json
 import os
+import database
 
 UPLOAD_FOLDER = 'images/'
 ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg'])
@@ -18,8 +19,11 @@ def index():
 def vote():
     if request.method == 'POST':
         # record the vote
+        abort(418)
         pass
-        
+
+    images = database.getImagesforNextJob()
+    print images
     # get a job from DB
     # return a rendered template with images
     abort(418)

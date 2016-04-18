@@ -51,12 +51,12 @@ def generateJobs(imageset_id):
 # Returns: List of image addresses, False if failed
 def getImagesforNextJob(tag=''):
     try:
-        job = Job.query.filter(!Job.done).first()
+        job = Job.query.filter(Job.done == False).first()
         images = []
-        image.append(Image.query.filter(Image.id == job.img1).first())
-        image.append(Image.query.filter(Image.id == job.img2).first())
-        image.append(Image.query.filter(Image.id == job.img3).first())
-        return images 
+        images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img1).first()[0])
+        images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img2).first()[0])
+        images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img3).first()[0])
+        return (job.id, images)
     except Exception, e:
         return False
 
