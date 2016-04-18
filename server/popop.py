@@ -20,13 +20,11 @@ def vote():
     if request.method == 'POST':
         # record the vote
         abort(418)
+        # createResult(job_id, worker_id, first, second, third):
         pass
 
-    job_id, images = database.getImagesforNextJob()
-    return render_template('vote.html', job_id=job_id, img_1=images[0], img_2=images[1], img_3=images[2])
-    # get a job from DB
-    # return a rendered template with images
-    abort(418)
+    job_id, description, images = database.getImagesforNextJob()
+    return render_template('vote.html', description=description, img_1=images[0], img_2=images[1], img_3=images[2])
 
 @app.route("/upload")
 def create_job():
