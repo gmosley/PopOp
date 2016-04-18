@@ -67,7 +67,11 @@
         clickedImage(3)
       });
 
-      $('#submit_form').bind('onsubmit', submit);
+      $('#submit_form').submit(function() {
+        calcList();
+        ret = submit();
+        return ret;
+      });
     }
 
     var generateImg = function(img) {
@@ -99,7 +103,7 @@
         id = $( this ).attr('id')
         if (id) {
           id = id.replace(/\D/g,'');
-          list.push(id)
+          list.push(parseInt(id))
         }
       });
     }
@@ -120,17 +124,12 @@
       if (list.length < 3) {
         alert = '<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button><strong>Please rank all the items!</strong></div>';
         $('#error_div').html(alert);
+        console.log('dont submit');
         return false;
       }
       $('#first_input').val(addresses[list[0] - 1]);
       $('#second_input').val(addresses[list[1] - 1]);
       $('#third_input').val(addresses[list[2] - 1]);
-      // $('#submit_form').submit();
-      // $.post('/vote', $('#submit_form').serialize())
-      // .done(function() {
-
-      // });
-      // return true;
       return true;
     }
 
@@ -161,7 +160,7 @@
         <div class="form-group">
           <input type="password" placeholder="Password" class="form-control">
         </div>
-        <button type="submit" class="btn btn-success">Sign in</button>
+        <button type="submit" class="btn btn-success" disabled="true">Sign in</button>
       </form>
     </div><!--/.navbar-collapse -->
   </div>
@@ -190,8 +189,7 @@
       <li class="ui-state-default" id=3></li>
     </ul>
   </div>
-  <div class="col-md-12" id="error_div">
-  </div>
+  <div class="col-md-12" id="error_div"></div>
   <form method='post' id="submit_form">
     <input id='first_input' name='first' hidden="true"></input>
     <input id='second_input' name='second' hidden="true"></input>
