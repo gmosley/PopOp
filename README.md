@@ -1,7 +1,7 @@
 # PopOp
 ## Links
 * [Tutorial Video](https://vimeo.com/163335682)
-* [Contribution Instructions]
+* [Contribution Instructions](https://github.com/gmosley/PopOp/blob/master/docs/Instructions.md)
 * [Code](https://github.com/gmosley/PopOp/tree/master/server)
 
 <p align="center">
