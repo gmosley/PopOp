@@ -14,46 +14,56 @@
 
   <script type="text/javascript" src="{{ url_for('static', filename='dropzone.js') }}"></script>
   <link rel=stylesheet type=text/css href="{{ url_for('static', filename='dropzone.css') }}">
+  <link rel="stylesheet" type="text/css" href="../static/footer-basic-centered.css">
 </head>
 <body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-      <div class="container">
-          <div class="navbar-header">
-              <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                  <span class="sr-only">Toggle navigation</span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-                  <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="/">PopOp</a>
-          </div>
-          <div id="navbar" class="collapse navbar-collapse">
-              <ul class="nav navbar-nav">
-                  <li class="active"><a href="/">Home</a>
-                  </li>
-                  <li><a href="#about">About</a>
-                  </li>
-                  <li><a href="#contact">Contact</a>
-                  </li>
-              </ul>
-          </div>
-          <!--/.nav-collapse -->
+  <nav class="navbar navbar-inverse">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">PopOp</a>
       </div>
+      <div id="navbar" class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="active"><a href="/">Home</a></li>
+          <li class="active"><a href="/upload">Request</a></li>
+          <li class="active"><a href="/vote">Vote</a></li>
+        </ul>
+        <form class="navbar-form navbar-right">
+          <div class="form-group">
+            <input type="text" placeholder="Username" class="form-control">
+          </div>
+          <div class="form-group">
+            <input type="password" placeholder="Password" class="form-control">
+          </div>
+        <button type="submit" class="btn btn-success" disabled=true>Sign in</button>
+        </form>
+      </div>
+    </div>
   </nav>
-  <div class="title">
+  <div class="container-fluid">
+    <div class="title col-md-12">
       <h2><b> Submit images to be rated!</b></h2>
-  </div>
-  <div>
-      <form id="my-awesome-dropzone" action="/upload" class="dropzone form-horizontal form-group">
+    </div>
+    <div class="col-md-12">
+      <h4>Submit between 3 and 10 images to be ranked by the crowd!</h4>
+      <h4>To upload files, click the area above and select the photos you want to be sorted by the crowd.</h4>
+      <h4>In the text box, type out the criteria you want your photos sorted by.</h4>
+    </div>
+    </div>
+    <div class="col-md-12">
+        <form id="my-awesome-dropzone" action="/upload" class="dropzone form-horizontal form-group">
           <label for="requirement">Rating Criteria</label>
           <input class="form-control" type="text" name="description" id="requirement">
           <button id="submit" class="btn btn-default" type="submit">Get PopOp'd!</button>
-          <hr>
           <div class="dropzone-previews"></div>
-      </form>
-  </div>
-  <div class="instructions">
-      <h4>submit up to 10 images to be ranked by the crowd!</h4>
+        </form>
+    </div>
   </div>
   <script type="text/javascript">
       var cnt = 0;
@@ -81,7 +91,6 @@
 
               // First change the button to actually tell Dropzone to process the queue.
               this.element.querySelector("button[type=submit]").addEventListener("click", function(e) {
-                  // Make sure that the form isn't actually being sent.
                   e.preventDefault();
                   e.stopPropagation();
                   
@@ -97,7 +106,7 @@
               // Listen to the sendingmultiple event. In this case, it's the sendingmultiple event instead
               // of the sending event because uploadMultiple is set to true.
               this.on("sendingmultiple", function() {
-                  // window.location = "http://www.youtube.com";
+
               });
 
               this.on("successmultiple", function(photos, response) {
@@ -128,4 +137,20 @@
 
       }
   </script>
+    <footer class="footer-basic-centered">
+    <p class="footer-company-motto">Get PopOppin'</p>
+    <p style="font-weight: lighter; color: #777; margin-bottom: -15px;">None of these work...</p>
+    <p class="footer-links">
+      <a href="#">Home</a>
+      ·
+      <a href="#">Blog</a>
+      ·
+      <a href="#">About</a>
+      ·
+      <a href="#">Faq</a>
+      ·
+      <a href="#">Contact</a>
+    </p>
+    <p class="footer-company-name">PopOp &copy; 2016</p>
+  </footer>
 </body>
