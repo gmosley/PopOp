@@ -17,7 +17,7 @@
   <link rel="stylesheet" type="text/css" href="../static/footer-basic-centered.css">
 </head>
 <body>
-  <nav class="navbar navbar-inverse">
+  <nav class="navbar navbar-inverse" style='border-radius: 0px;'>
     <div class="container">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -55,16 +55,31 @@
       <h4>To upload files, click the area above and select the photos you want to be sorted by the crowd.</h4>
       <h4>In the text box, type out the criteria you want your photos sorted by.</h4>
     </div>
-    </div>
     <div class="col-md-12">
-        <form id="my-awesome-dropzone" action="/upload" class="dropzone form-horizontal form-group">
-          <label for="requirement">Rating Criteria</label>
-          <input class="form-control" type="text" name="description" id="requirement">
-          <button id="submit" class="btn btn-default" type="submit">Get PopOp'd!</button>
-          <div class="dropzone-previews"></div>
-        </form>
+      <form id="my-awesome-dropzone" action="/upload" class="dropzone form-horizontal form-group">
+        <label for="requirement">Rating Criteria</label>
+        <input class="form-control" type="text" name="description" id="requirement">
+        <button id="submit" class="btn btn-default" type="submit">Get PopOp'd!</button>
+        <div class="dropzone-previews" style="position: absolute;"></div>
+      </form>
     </div>
   </div>
+  <footer class="footer-basic-centered">
+    <p class="footer-company-motto">Get PopOppin'</p>
+    <p style="font-weight: lighter; color: #777; margin-bottom: -15px;">None of these work...</p>
+    <p class="footer-links">
+      <a href="#">Home</a>
+      ·
+      <a href="#">Blog</a>
+      ·
+      <a href="#">About</a>
+      ·
+      <a href="#">Faq</a>
+      ·
+      <a href="#">Contact</a>
+    </p>
+    <p class="footer-company-name">PopOp &copy; 2016</p>
+  </footer>
   <script type="text/javascript">
       var cnt = 0;
       var cleanFilename = function(name) {
@@ -137,20 +152,4 @@
 
       }
   </script>
-    <footer class="footer-basic-centered">
-    <p class="footer-company-motto">Get PopOppin'</p>
-    <p style="font-weight: lighter; color: #777; margin-bottom: -15px;">None of these work...</p>
-    <p class="footer-links">
-      <a href="#">Home</a>
-      ·
-      <a href="#">Blog</a>
-      ·
-      <a href="#">About</a>
-      ·
-      <a href="#">Faq</a>
-      ·
-      <a href="#">Contact</a>
-    </p>
-    <p class="footer-company-name">PopOp &copy; 2016</p>
-  </footer>
 </body>
