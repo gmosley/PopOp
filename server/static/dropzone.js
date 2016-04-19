@@ -136,7 +136,7 @@
       hiddenInputContainer: "body",
       capture: null,
       renameFilename: null,
-      dictDefaultMessage: "Drop files here to upload",
+      dictDefaultMessage: "Drag and drop photos here, or click to upload photos",
       dictFallbackMessage: "Your browser does not support drag'n'drop file uploads.",
       dictFallbackText: "Please use the fallback form below to upload your files like in the olden days.",
       dictFileTooBig: "File is too big ({{filesize}}MiB). Max filesize: {{maxFilesize}}MiB.",
