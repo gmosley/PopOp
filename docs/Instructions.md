@@ -2,7 +2,8 @@ Requesters
 ----------
 1. Access the website through popop.io.
 2. Enter the requester’s section through the button on the main page 
-3. Upload images by either dropping them into the space provided, or simply click the space provided to enter your system’s file browser. 4. Enter the criteria you would like your images to be judged upon. 
+3. Upload images by either dropping them into the space provided, or simply click the space provided to enter your system’s file browser.
+4. Enter the criteria you would like your images to be judged upon. 
 5. Click submit. 
 
 Workers
