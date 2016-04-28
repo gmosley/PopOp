@@ -1,3 +1,6 @@
+import nltk
+from nltk.sem import relextract
+
 descriptions = [
   'Vote by the best logo',
   'CATS CATS CATS',
@@ -33,3 +36,15 @@ descriptions = [
   'I want my photos to be sorted by most exciting to least exciting',
   'which is a better background'
 ]
+
+grammar = "RELEVANT: {<DT|JJP|JJC>*<.*>*<NN>+}"
+
+nltk.help.upenn_tagset()
+
+for description in descriptions:
+  tokens = nltk.word_tokenize(description)
+  tagged = nltk.pos_tag(tokens)
+  entities = nltk.chunk.ne_chunk(tagged)
+  cp = nltk.RegexpParser(grammar)
+  result = cp.parse(entities)
+  print result
