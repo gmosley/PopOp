@@ -63,11 +63,12 @@ class Job(Base):
     perm_num = Column(Integer, nullable=False)
     done = Column(Boolean, nullable=False)
 
-    def __init__(self, set_id, img1, img2, img3):
+    def __init__(self, set_id, img1, img2, img3, perm_num=0):
         self.set_id = set_id
         self.img1 = img1
         self.img2 = img2
         self.img3 = img3
+        self.perm_num = perm_num
         self.done = False
 
     def __repr__(self):
