@@ -1,0 +1,33 @@
+
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+    google.charts.load("current", {packages:['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+    function drawChart() {
+      var data = google.visualization.arrayToDataTable([
+          ['label', 'agreement', 'disagreement'],
+          ['education',16,2],
+          ['food and drink',9,0],
+          ['travel',8,1],
+          ['art and entertainment',32,1],
+          ['style and fashion',15,0],
+          ['technology and computing',9,0],
+          ['business and industrial',24,3],
+          ['hobbies and interests',28,2],
+          ['pets',23,1],
+          ['sports',6,0]
+      ]);
+
+      var options = {
+        title: "Density of Precious Metals, in g/cm^3",
+        width: 600,
+        height: 400,
+        legend: { position: "none" },
+        isStacked: true,
+      };
+      var chart = new google.visualization.ColumnChart(document.getElementById("columnchart_values"));
+      chart.draw(view, options);
+  }
+  </script>
+<div id="columnchart_values" style="width: 900px; height: 300px;"></div>

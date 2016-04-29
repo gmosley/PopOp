@@ -1,0 +1,10 @@
+education	16	2
+food and drink	9	0
+travel	8	1
+art and entertainment	32	1
+style and fashion	15	0
+technology and computing	9	0
+business and industrial	24	3
+hobbies and interests	28	2
+pets	23	1
+sports	6	0
