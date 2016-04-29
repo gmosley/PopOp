@@ -1,3 +1,13 @@
+"""
+Aggregates the results from each job using Page Rank.
+
+Expects that the results.csv file generated from exporter.py
+is in the same directory as this file. 
+
+Generates a csv file in the format "set_id, result", where
+result is a json encoding of the images in the form [img_id, img_addr, ranking].
+"""
+
 import numpy as np
 import math
 import csv

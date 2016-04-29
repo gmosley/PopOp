@@ -1,4 +1,8 @@
-# This file needs to be run from the server/ directory
+"""
+Generates a file called results.csv which contain
+information to be parsed by pageRank.py.
+This file needs to be run from the server/ directory. 
+"""
 
 import csv
 import database
