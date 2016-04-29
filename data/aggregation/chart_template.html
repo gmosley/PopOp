@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Results</title>
+        <style type="text/css">
+        figure {
+            display: inline-block;
+        }
+        </style>
+    </head>
+    <body>
+        {% for imageset in data %}
+        <div>
+            {{ imageset.description }}
+            </br>
+            {% for image in imageset.images %}
+            <figure>
+                <img src="{{ image[0] }}" height=300px>
+                <figcaption>{{ image[1] }}</figcaption>
+            </figure>
+            {% endfor %}
+        </div>
+        {% endfor %}     
+    </body>
+</html>
