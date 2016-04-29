@@ -17,12 +17,31 @@ class ImageSet(Base):
     def __repr__(self):
         return '<ImageSet %d:(owner: %d description: %r)>' % (self.id, self.user_id, self.description)
 
+class Reports(Base):
+    __tablename__ = 'reports'
+
+    user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    set_id = Column(Integer, ForeignKey('imagesets.id'), primary_key=True)
+    time = Column(DateTime, nullable=False)
+    reason = Column(Integer, nullable=False)
+    descrip = Column(String, nullable=True)
+
+    def __init__(self, user_id, set_id, time, reason, descrip=''):
+        self.user_id = user_id
+        self.set_id = set_id
+        self.time = time
+        self.reason = reason
+        if len(descrip) > 0:
+            self.descrip = descrip
+
+    def __repr__(self):
+        return '<Report user:%d set:%d reason:%d>' %(self.user_id, self.set_id, self. reason)
+
 class Image(Base):
     __tablename__ = 'images'
 
     id = Column(Integer, primary_key=True)
     set_id = Column(Integer, ForeignKey('imagesets.id'), nullable=False)
-    reports = Column(Integer, nullable=False)
     address = Column(String, nullable=False)
 
     def __init__(self, set_id, address):
@@ -41,6 +60,7 @@ class Job(Base):
     img1 = Column(Integer, ForeignKey('images.id'), nullable=False)
     img2 = Column(Integer, ForeignKey('images.id'), nullable=False)
     img3 = Column(Integer, ForeignKey('images.id'), nullable=False)
+    perm_num = Column(Integer, nullable=False)
     done = Column(Boolean, nullable=False)
 
     def __init__(self, set_id, img1, img2, img3):
@@ -52,6 +72,21 @@ class Job(Base):
 
     def __repr__(self):
         return '<Job %d:(set_id: %d done: %d)>' % (self.id, self.set_id, self.done)
+
+class UserJob(Base):
+    __tablename__ = 'userjobs'
+
+    user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
+    set_id = Column(Integer, ForeignKey('imagesets.id'), primary_key=True)
+    perm_num = Column(Integer, primary_key=True)
+
+    def __init__(self, user_id, set_id, perm_num):
+        self.user_id = user_id
+        self.set_id = set_id
+        self.perm_num = perm_num
+
+    def __repr__(self):
+        return '<UserJob user:%d set:%d perm:%d>' %(self.user_id, self.set_id, self.perm_num)
 
 class Result(Base):
     __tablename__ = 'results'

@@ -44,6 +44,8 @@ def newRequest(owner, image_addresses, description):
 # Generate a list of jobs for a given ImageSet
 # Returns: True if success, False otherwise
 def generateJobs(imageset_id):
+    MIN_JOBS = 10
+    MAX_JOBS = 50
     try:
         images = Image.query.with_entities(Image.id).filter(Image.set_id == imageset_id).all()
         for i in xrange(0,len(images) - 2):
