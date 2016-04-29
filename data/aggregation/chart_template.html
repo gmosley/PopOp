@@ -32,8 +32,8 @@
                 </br>
                 {% for image in imageset.images %}
                 <figure>
-                    <img src="{{ image[0] }}">
-                    <figcaption>{{ image[1] }}</figcaption>
+                    <img src="{{ image[0] }}" hspace=2px>
+                    <figcaption>{{'%0.3f'| format(image[1]|float)}}</figcaption>
                 </figure>
                 {% endfor %}
             </div>
