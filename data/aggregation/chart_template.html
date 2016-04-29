@@ -27,15 +27,17 @@
     </head>
     <body>
         {% for imageset in data %}
-        <div class="images">
-            <h3>{{ imageset.description }}</h3>
-            </br>
-            {% for image in imageset.images %}
-            <figure>
-                <img src="{{ image[0] }}">
-                <figcaption>{{ image[1] }}</figcaption>
-            </figure>
-            {% endfor %}
+        <div class="images row">
+            <div class="col-md-12">
+                <h3>{{ imageset.description }}</h3>
+                </br>
+                {% for image in imageset.images %}
+                <figure>
+                    <img src="{{ image[0] }}">
+                    <figcaption>{{ image[1] }}</figcaption>
+                </figure>
+                {% endfor %}
+            </div>
         </div>
         {% endfor %}     
     </body>
