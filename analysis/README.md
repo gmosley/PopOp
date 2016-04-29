@@ -17,7 +17,6 @@ The first argument is the imageset csv, and the second argument is the name of t
 
 Next we want to generate topic to judgement-agreement data (this one was fun): 
 ```
-python taxonomy_parser.py taxonomy_json.csv final_rankings.csv 
-  results.csv > agreements.txt
+python taxonomy_parser.py taxonomy_json.csv final_rankings.csv results.csv > agreements.txt
 ``` 
 We've charted out our results in `label_agreement.html`
