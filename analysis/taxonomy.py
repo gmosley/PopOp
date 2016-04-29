@@ -40,11 +40,8 @@ output = csv.writer(open(outputfile, 'w'))
 output.writerow(['id', 'description', 'json'])
 
 for row in csvReader :
-  if(row[2] == 'description'): continue
+  if row[2] == 'description' : continue
   result = get_taxonomy(row[2])
-  output.writerow([row[0], row[2], result])
-  # break
-  # if(result == None) :
-  #   continue;
-  # # print row[0], row[2], result[0]['label'];
-  # break;
+  if result == None :
+    continue;
+  output.writerow([row[0], row[2], json.dumps(result)])
