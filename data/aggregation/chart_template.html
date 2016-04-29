@@ -1,21 +1,38 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <!-- Latest compiled and minified CSS -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+        <!-- Latest compiled and minified JavaScript -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-    0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
         <title>Results</title>
+        <style type="text/css">
         <style type="text/css">
         figure {
             display: inline-block;
+        }
+        img {
+            max-height: 150px;
+            border-radius: 5px;
+        }
+        figcaption {
+            font-size: 16px;
+        }
+        .images {
+            text-align: center;
         }
         </style>
     </head>
     <body>
         {% for imageset in data %}
-        <div>
-            {{ imageset.description }}
+        <div class="images">
+            <h3>{{ imageset.description }}</h3>
             </br>
             {% for image in imageset.images %}
             <figure>
-                <img src="{{ image[0] }}" height=300px>
+                <img src="{{ image[0] }}">
                 <figcaption>{{ image[1] }}</figcaption>
             </figure>
             {% endfor %}
