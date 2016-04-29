@@ -56,13 +56,16 @@ def pageRank(G, s = .85, maxiters = 100, maxerr = .001):
 
 set_ids_to_results = {}
 images_urls = {}
+set_descriptions = {}
 
-with open('results2.csv', 'rb') as csvfile:
+with open('results.csv', 'rb') as csvfile:
     with open('final_rankings.csv', 'wb') as outputfile:
         csvwriter = csv.writer(outputfile, delimiter=',', quoting=csv.QUOTE_MINIMAL)
         reader = csv.DictReader(csvfile)
 
-        csvwriter.writerow(['set_id', 'result'])
+
+
+        csvwriter.writerow(['set_id', 'description', 'result'])
         set_id = -1
 
         for row in reader:
@@ -83,6 +86,7 @@ with open('results2.csv', 'rb') as csvfile:
             set_ids_to_results[set_id].append((fst, snd, thd))
 
             worker_id = row['worker_id']
+            set_descriptions[row['set_id']] = row['description']
 
         for set_id in set_ids_to_results:
             # get map of all ids for a set
@@ -114,6 +118,6 @@ with open('results2.csv', 'rb') as csvfile:
             tuples = []
             for r in xrange(0, len(rankings)):
                 tuples.append((nodes_inverse[r], images_urls[nodes_inverse[r]], rankings[r]))
-            csvwriter.writerow([set_id, json.dumps(tuples)])
+            csvwriter.writerow([set_id, set_descriptions[set_id], json.dumps(tuples)])
 
 
