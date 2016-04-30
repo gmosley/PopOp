@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, DateTime, Binary
 from database import Base
 
 class ImageSet(Base):
@@ -85,9 +85,9 @@ class Result(Base):
     first = Column(Integer, ForeignKey('images.id'), nullable=False)
     second = Column(Integer, ForeignKey('images.id'), nullable=False)
     third = Column(Integer, ForeignKey('images.id'), nullable=False)
-    perm_num = Column(Integer, primary_key=True)
+    perm_num = Column(Integer, nullable=False)
 
-    def __init__(self, set_id, worker_id, finish_time, first, second, third, perm_num):
+    def __init__(self, set_id, worker_id, finish_time, first, second, third, perm_num=0):
         self.set_id = set_id
         self.worker_id = worker_id
         self.finish_time = finish_time

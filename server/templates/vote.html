@@ -45,7 +45,6 @@
   <![endif]-->
 
   <link rel="stylesheet" type="text/css" href="../static/vote.css">
-  <link rel="stylesheet" type="text/css" href="../static/footer-basic-centered.css">
 
   <title>Vote</title>
   <script type="text/javascript">
@@ -160,37 +159,10 @@
 </head>
 
 <body>
-<nav class="navbar navbar-inverse" style='border-radius: 0px;'>
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/">PopOp</a>
-    </div>
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-        <li class="active"><a href="/">Home</a></li>
-        <li class="active"><a href="/upload">Request</a></li>
-        <li class="active"><a href="/vote">Vote</a></li>
-      </ul>
-      <form class="navbar-form navbar-right">
-        <div class="form-group">
-          <input type="text" placeholder="Email" class="form-control">
-        </div>
-        <div class="form-group">
-          <input type="password" placeholder="Password" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-success" disabled=true>Sign in</button>
-      </form>
-    </div><!--/.navbar-collapse -->
-  </div>
-</nav>
 
-<div class="container-fluid main">
+{% include "navbar.html" %}
+
+<div class="container-fluid main" style="padding-left: 180px; padding-right: 180px;">
   <h1>Work</h1>
   <h3 id="descrip"></h3>
   <div class="col-md-12 well interact">
@@ -250,27 +222,7 @@
   </div>
 </div>
 
-
-
-
-
-<footer class="footer-basic-centered">
-  <p class="footer-company-motto">Get PopOppin'</p>
-  <p style="font-weight: lighter; color: #777; margin-bottom: -15px;">None of these work...</p>
-  <p class="footer-links">
-    <a href="#">Home</a>
-    ·
-    <a href="#">Blog</a>
-    ·
-    <a href="#">About</a>
-    ·
-    <a href="#">Faq</a>
-    ·
-    <a href="#">Contact</a>
-  </p>
-  <p class="footer-company-name">PopOp &copy; 2016</p>
-</footer>
-
+{% include "footer.html" %}
 </body>
 
 </html>

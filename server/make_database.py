@@ -7,7 +7,7 @@ import models
 from database import db_session
 
 # create a user. for now, this is our only user
-u = models.User("joe", "doe", "email@seas.upenn.edu", "password")
+u = models.User("joe", "doe", "email@seas.upenn.edu", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3")
 # objects must be added and commited to the database
 db_session.add(u)
 db_session.commit()
