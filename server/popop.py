@@ -113,6 +113,7 @@ def vote():
 
     # no matter what, get a new set of images
     result = database.getImagesforNextJob()
+    print result
     if result:
         job_id, set_id, description, images = result
         session['job_id'] = job_id

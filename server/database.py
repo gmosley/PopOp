@@ -23,11 +23,11 @@ def init_db():
     import models
     Base.metadata.create_all(bind=engine)
 
-@event.listens_for(Engine, "connect")
-def set_sqlite_pragma(dbapi_connection, connection_record):
-    cursor = dbapi_connection.cursor()
-    cursor.execute("PRAGMA foreign_keys=ON")
-    cursor.close()
+# @event.listens_for(Engine, "connect")
+# def set_sqlite_pragma(dbapi_connection, connection_record):
+#     cursor = dbapi_connection.cursor()
+#     cursor.execute("PRAGMA foreign_keys=ON")
+#     cursor.close()
 
 from models import ImageSet, Image, Job, Result, User
 
@@ -126,6 +126,7 @@ def getImagesforNextJob(tag=''):
         images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img3).first()[0])
         return (job.id, job.set_id, description, images)
     except Exception, e:
+        print e
         return False
 
 # Create a result, expects job id, worker id, and the order
@@ -143,4 +144,5 @@ def createResult(job_id, set_id, worker_id, first, second, third):
         db_session.commit()
         return result.id
     except Exception, e:
+        print e
         return False

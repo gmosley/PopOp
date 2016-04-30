@@ -85,7 +85,7 @@ class Result(Base):
     first = Column(Integer, ForeignKey('images.id'), nullable=False)
     second = Column(Integer, ForeignKey('images.id'), nullable=False)
     third = Column(Integer, ForeignKey('images.id'), nullable=False)
-    perm_num = Column(Integer, primary_key=True)
+    perm_num = Column(Integer, nullable=False)
 
     def __init__(self, set_id, worker_id, finish_time, first, second, third, perm_num=0):
         self.set_id = set_id
