@@ -1,5 +1,6 @@
 from flask import Flask, render_template, session, request, abort
 from werkzeug import secure_filename
+import flask.ext.login as flask_login
 import json
 import os
 import database
@@ -8,11 +9,13 @@ from uuid import uuid4
 
 app = Flask(__name__)
 # needs to actually be secret in production
-app.secret_key = 'swordfish' 
+app.secret_key = 'swordfish'
 
 # must be false in production
 app.debug = True
 
+login_manager = flask_login.LoginManager()
+login_manager.init_app(app)
 
 @app.route("/")
 def index():

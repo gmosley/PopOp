@@ -73,22 +73,7 @@ class Job(Base):
 
     def __repr__(self):
         return '<Job %d:(set_id: %d done: %d)>' % (self.id, self.set_id, self.done)
-
-class UserJob(Base):
-    __tablename__ = 'userjobs'
-
-    user_id = Column(Integer, ForeignKey('users.id'), primary_key=True)
-    set_id = Column(Integer, ForeignKey('imagesets.id'), primary_key=True)
-    perm_num = Column(Integer, primary_key=True)
-
-    def __init__(self, user_id, set_id, perm_num):
-        self.user_id = user_id
-        self.set_id = set_id
-        self.perm_num = perm_num
         
-    def __repr__(self):
-        return '<UserJob user:%d set:%d perm:%d>' %(self.user_id, self.set_id, self.perm_num)
-
 class Result(Base):
     __tablename__ = 'results'
 
@@ -100,14 +85,16 @@ class Result(Base):
     first = Column(Integer, ForeignKey('images.id'), nullable=False)
     second = Column(Integer, ForeignKey('images.id'), nullable=False)
     third = Column(Integer, ForeignKey('images.id'), nullable=False)
+    perm_num = Column(Integer, primary_key=True)
 
-    def __init__(self, set_id, worker_id, finish_time, first, second, third):
+    def __init__(self, set_id, worker_id, finish_time, first, second, third, perm_num):
         self.set_id = set_id
         self.worker_id = worker_id
         self.finish_time = finish_time
         self.first = first
         self.second = second
         self.third = third
+        self.perm_num = perm_num
 
     def __repr__(self):
         return "<Result(1:%r 2:%r 3:%r finish_time:%r worker_id:%d set_id:%d)>" \
