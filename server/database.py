@@ -24,7 +24,7 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor.execute("PRAGMA foreign_keys=ON")
     cursor.close()
 
-from models import ImageSet, Image, Job, Result, User
+from models import ImageSet, Image, Job, Result, User, Reports
 
 # Expects owner id, list of image addresses, and a description.
 # Returns: id of newly created ImageSet, false if failed
@@ -39,10 +39,12 @@ def newRequest(owner, image_addresses, description):
         db_session.commit()
         return imageset.id
     except Exception, e:
+        print e
         return False
 
 # create report and commit it to database
-# Returns: True if success, False otherwise
+# Returns: True if success, False otherwise 
+# reason is 0 for nudity, 1 for offensive, 2 for no images
 def createReport(user_id, set_id, reason, descrip):
     try:
         report = Reports(user_id, set_id, datetime.now(), reason, descrip)
@@ -50,6 +52,7 @@ def createReport(user_id, set_id, reason, descrip):
         db_session.commit()
         return True
     except Exception, e:
+        print e
         return False
 
 
@@ -66,6 +69,7 @@ def generateJobs(imageset_id):
         db_session.commit()
         return True
     except Exception, e:
+        print e
         return False
 
 # Gets images for next availiable job
@@ -81,6 +85,7 @@ def getImagesforNextJob(tag=''):
         images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img3).first()[0])
         return (job.id, job.set_id, description, images)
     except Exception, e:
+        print e
         return False
 
 # Create a result, expects job id, worker id, and the order
@@ -98,4 +103,5 @@ def createResult(job_id, set_id, worker_id, first, second, third):
         db_session.commit()
         return result.id
     except Exception, e:
+        print e
         return False

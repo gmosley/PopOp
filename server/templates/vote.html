@@ -83,6 +83,9 @@
         ret = submit();
         return ret;
       });
+
+      $("input:radio").change(function() {$("#submit_report").prop("disabled", false);});
+
     }
 
     var generateImg = function(img) {
@@ -127,6 +130,11 @@
           $('#prompt').attr('hidden', false);
         }
       }
+    }
+
+    var submit_report = function() {
+      console.log('submit_report');
+
     }
 
     var submit = function() {
@@ -196,11 +204,6 @@
     <div class="col-md-1">
       <h3>Worst</h3>
     </div>
-      <form action="/report" method="POST">  
-        <input type="radio" name="report" value="nudity"> Nudity<br>
-        <input type="radio" name="report" value="offensive"> Offensive<br>
-        <input type="radio" name="report" value="other"> No images
-      </form>
   </div>
   <br/>
   <div class="col-md-12 well interact">
@@ -217,7 +220,39 @@
     <input id='third_input' name='third' hidden="true"></input>
     <button type="submit" class="btn btn-primary btn-lg" style="float: right;">Submit</button>
   </form>
+  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" style="float:left" data-target="#myModal">Report these images</button>
+    <div class="modal fade" id="myModal" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Why are you reporting these images?</h4>
+          </div>
+          <div class="modal-body container">
+            <form action="/report" method="POST" role="form">
+              <div class="radio">
+                <label><input type="radio" name="reason" value="0"> Nudity</label>
+              </div>
+              <div class="radio">
+                <label><input type="radio" name="reason" value="1"> Offensive</label>
+              </div>
+              <div class="radio">
+                <label><input type="radio" name="reason" value="2"> No images</label>
+              </div>
+              <div>
+                <button type="submit" id="submit_report" disabled="disabled" class="btn btn-primary btn-sm" style="float:left">Submit</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
+
+
 
 <footer class="footer-basic-centered">
   <p class="footer-company-motto">Get PopOppin'</p>

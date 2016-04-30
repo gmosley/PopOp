@@ -23,14 +23,16 @@ def index():
 
 @app.route("/report", methods=['POST'])
 def report():
+    print "works"
     if 'set_id' in session:
-        user_id = 1
+        user_id = "1"
         set_id = session['set_id']
-        reason = request.form.get('reason')
+        reason = request.form['reason']
         description = ""
         if(database.createReport(user_id, set_id, reason, description)):
-            return 200
-    return 400
+            flask.flash("report successful")
+            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+    abort(400)
 
 @app.route("/vote", methods=['GET', 'POST'])
 def vote():
@@ -63,7 +65,7 @@ def upload():
         return render_template('dropzone.html')
     
     c = boto.connect_s3()
-    b = c.get_bucket('popop-uploads')
+    b = c.get_bucket('popop-test')
 
     description = request.form.get('description')
 
@@ -77,7 +79,7 @@ def upload():
             key.content_type= file.content_type
             key.set_contents_from_string(file.read())
             key.set_acl('public-read')
-            image_files.append('https://s3.amazonaws.com/popop-uploads/' + dst_file)
+            image_files.append('https://s3.amazonaws.com/popop-test/' + dst_file)
 
     if len(image_files) >= 3:
         set_id = database.newRequest(1, image_files, description)
