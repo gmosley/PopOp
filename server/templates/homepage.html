@@ -65,18 +65,38 @@
             <li class="active"><a href="/upload">Request</a></li>
             <li class="active"><a href="/vote">Vote</a></li>
           </ul>
-          <form class="navbar-form navbar-right">
+          {% if not current_user.is_authenticated %}
+          <form class="navbar-form navbar-right" method="POST" action="/login">
+          <a href="/signup" class="btn btn-default" style="margin-right: 20px;">Sign up here</a>
             <div class="form-group">
-              <input type="text" placeholder="Username" class="form-control">
+              <input type="text" name="email" id="email" placeholder="Email" class="form-control">
             </div>
             <div class="form-group">
-              <input type="password" placeholder="Password" class="form-control">
+              <input type="password" name="password" id="password" placeholder="Password" class="form-control">
             </div>
-          <button type="submit" class="btn btn-success" disabled=true>Sign in</button>
+          <button type="submit" class="btn btn-success">Sign in</button>
           </form>
+          {% else %}
+            <form class="navbar-form navbar-right" action="/logout">
+              <a style="font-size: 18px;" class="btn">Welcome, {{ current_user.first_name }}!</a>
+              <button type="submit" class="btn btn-danger">Sign out</button>
+            </form>
+          {% endif %}
         </div><!--/.nav-collapse -->
       </div>
     </nav>
+
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    <div class='flashes container'>
+    {% for message in messages %}
+      <div class="alert alert-info row" role="alert">{{ message }}</div>
+    {% endfor %}
+    </div>
+  {% endif %}
+{% endwith %}
+{% block body %}{% endblock %}
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
     <div class="jumbotron">

@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, DateTime
+from sqlalchemy import Column, ForeignKey, Integer, String, Boolean, DateTime, Binary
 from database import Base
 
 class ImageSet(Base):

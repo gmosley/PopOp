@@ -3,6 +3,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
+from Crypto.Hash import SHA256
 
 # engine = create_engine('sqlite:////tmp/test.db', convert_unicode=True)
 engine = create_engine('sqlite:///./db/database_2.db', convert_unicode=True)
@@ -25,6 +26,30 @@ def set_sqlite_pragma(dbapi_connection, connection_record):
     cursor.close()
 
 from models import ImageSet, Image, Job, Result, User
+
+
+def signupUser(first_name, last_name, email, password):
+    does_exist = User.query.filter(User.email == email).first()
+    if not does_exist:
+        phash = SHA256.new(password).hexdigest()
+        print (password, phash)
+        u = User(first_name, last_name, email, phash)
+        db_session.add(u)
+        db_session.commit()
+        return (u.id, '')
+    else:
+        return (False, 'This email has already been taken.')
+
+def validateLogin(email, password):
+    u = User.query.filter(User.email == email).first()
+    if u:
+        phash = SHA256.new(password).hexdigest()
+        print (password, phash)
+        print u.password_hash
+        if phash == u.password_hash:
+            clone = User(u.first_name, u.last_name, u.email, '')
+            return clone
+    return False
 
 # Expects owner id, list of image addresses, and a description.
 # Returns: id of newly created ImageSet, false if failed
