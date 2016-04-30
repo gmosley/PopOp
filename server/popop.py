@@ -34,7 +34,14 @@ def user_loader(email):
     u = dbuser.query.filter(dbuser.email == email).first()
     if u:
         user = User(u.email, u.first_name, u.last_name)
+        user.id = u.id
         return user
+
+@login_manager.unauthorized_handler
+def unauthorized():
+
+    # flash('You need to be logged in to view this page.')
+    return redirect(url_for('login'))
 
 # Routes
 
@@ -66,8 +73,11 @@ def signup():
     else:
         return json.dumps({'error': True, 'error-descrip':'Some fields are invalid.'}), 400, {'ContentType':'application/json'}
 
-@app.route("/login", methods=['POST'])
+@app.route("/login", methods=['GET', 'POST'])
 def login():
+    if request.method == 'GET':
+        return render_template('login.html')
+
     print "trying to login"
     email = request.form['email']
     password = request.form['password']
@@ -75,20 +85,21 @@ def login():
     print (email, password)
     print u
     if u:
-        flash('Logged in!')
         user = User(u.email, u.first_name, u.last_name)
         flask_login.login_user(user)
+        return request.args.get('next') or redirect(url_for('index'))
     else:
         flash('Invalid username or password.')
-    return redirect(url_for('index'))
+        return redirect(url_for('index'))
 
-@app.route("/logout", methods=['GET', 'POST'])
+@app.route("/logout", methods=['POST'])
 @flask_login.login_required
 def logout():
     flask_login.logout_user()
     return redirect(url_for('index'))
 
 @app.route("/report", methods=['POST'])
+@flask_login.login_required
 def report():
     if 'set_id' in session:
         user_id = 1
@@ -100,11 +111,12 @@ def report():
     return 400
 
 @app.route("/vote", methods=['GET', 'POST'])
+@flask_login.login_required
 def vote():
     if request.method == 'POST':
         if 'set_id' in session and 'job_id' in session:
             # record the vote
-            database.createResult(session['job_id'], session['set_id'], 1, request.form['first'],
+            database.createResult(session['job_id'], session['set_id'], flask_login.current_user.id, request.form['first'],
                 request.form['second'], request.form['third'])
         else:
             abort(400) 
@@ -126,6 +138,7 @@ def vote():
 # need to figure out file uploading
 
 @app.route("/upload", methods=['GET','POST'])
+@flask_login.login_required
 def upload():
     if request.method == 'GET':
         return render_template('dropzone.html')
@@ -148,7 +161,7 @@ def upload():
             image_files.append('https://s3.amazonaws.com/popop-uploads/' + dst_file)
 
     if len(image_files) >= 3:
-        set_id = database.newRequest(1, image_files, description)
+        set_id = database.newRequest(flask_login.current_user.id, image_files, description)
         database.generateJobs(set_id)
         return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
     else:
