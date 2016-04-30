@@ -18,6 +18,17 @@ app.debug = True
 def index():
     return render_template('homepage.html')
 
+@app.route("/report", methods=['POST'])
+def report():
+    if 'set_id' in session:
+        user_id = 1
+        set_id = session['set_id']
+        reason = request.form.get('reason')
+        description = ""
+        if(database.createReport(user_id, set_id, reason, description)):
+            return 200
+    return 400
+
 @app.route("/vote", methods=['GET', 'POST'])
 def vote():
     if request.method == 'POST':

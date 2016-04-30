@@ -85,7 +85,7 @@ class UserJob(Base):
         self.user_id = user_id
         self.set_id = set_id
         self.perm_num = perm_num
-
+        
     def __repr__(self):
         return '<UserJob user:%d set:%d perm:%d>' %(self.user_id, self.set_id, self.perm_num)
 

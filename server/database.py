@@ -41,6 +41,18 @@ def newRequest(owner, image_addresses, description):
     except Exception, e:
         return False
 
+# create report and commit it to database
+# Returns: True if success, False otherwise
+def createReport(user_id, set_id, reason, descrip):
+    try:
+        report = Reports(user_id, set_id, datetime.now(), reason, descrip)
+        db_session.add(report)
+        db_session.commit()
+        return True
+    except Exception, e:
+        return False
+
+
 # Generate a list of jobs for a given ImageSet
 # Returns: True if success, False otherwise
 def generateJobs(imageset_id):
