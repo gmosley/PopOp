@@ -5,6 +5,10 @@ from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 from Crypto.Hash import SHA256
 
+import itertools
+import math
+import random
+
 # engine = create_engine('sqlite:////tmp/test.db', convert_unicode=True)
 engine = create_engine('sqlite:///./db/database_2.db', convert_unicode=True)
 db_session = scoped_session(sessionmaker(autocommit=False, autoflush=False, bind=engine))
@@ -85,8 +89,24 @@ def generateJobs(imageset_id):
     MAX_JOBS = 50
     try:
         images = Image.query.with_entities(Image.id).filter(Image.set_id == imageset_id).all()
-        for i in xrange(0,len(images) - 2):
-            job = Job(imageset_id, images[i][0], images[i + 1][0], images[i + 2][0])
+
+        all_jobs = []
+        combinations = list(enumerate(itertools.combinations(range(len(images)), 3)))
+        num_combinations = len(combinations)
+
+        multiplier, extra = divmod(MIN_JOBS, num_combinations)
+
+        if multiplier > 0:
+            for i in xrange(multiplier):
+                all_jobs.extend(combinations)
+            random.shuffle(combinations)
+            all_jobs.extend(combinations[:extra])
+        else:
+            random.shuffle(combinations)
+            all_jobs.extend(combinations[:min(MAX_JOBS, num_combinations)])
+
+        for (p_id, (i1, i2, i3)) in all_jobs:
+            job = Job(imageset_id, images[i1][0], images[i2][0], images[i3][0], p_id)
             db_session.add(job)
         db_session.commit()
         return True
