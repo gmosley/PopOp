@@ -150,3 +150,16 @@ def createResult(job_id, set_id, worker_id, first, second, third):
     except Exception, e:
         print e
         return False
+
+# Gets image sets owned by a user.
+# Returns: A list of tuples in the format (set_id, user_id, description, tag)
+def getSetsForUser(user_id):
+    try:
+        sets = ImageSet.query.filter(ImageSet.user_id = user_id).all()
+        l = []
+        for s in sets:
+            l.append((s.id, s.user_id, s.description, s.tag))
+        return l
+    except Exception, e:
+        print e
+        return False
