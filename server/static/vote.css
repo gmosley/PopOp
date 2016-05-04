@@ -20,7 +20,8 @@ h4 {
 
 .interact {
   text-align: center;
-  height: 240px;
+  height: 200px;
+  padding: 0px;
 }
 
 .fill {
@@ -34,10 +35,63 @@ h4 {
   border-style: solid;
 }
 
+.modal-dialog {
+  width: 400px;
+  height: 250px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -125px;
+  margin-left: -200px;
+  padding: 20px;
+}
+
+.modal-body {
+  padding: 10px 40px 10px 40px;
+}
+
+.side {
+  position: relative;
+}
+
+.hover-fill {
+  object-fit: contain;
+  background-color: #fff;
+  height:100%; 
+  width:100%;
+  border-color: #333;
+  border-width: 1px;
+  border-style: solid;
+}
+
+#hover {
+  position: absolute;
+  width: 600px;
+  height: 500px;
+  /*top: 500px;*/
+  /*left: 50%;*/
+  margin: 20px;
+  /*margin-left: -200px;*/
+  /*padding: 10px;*/
+  /*z-index: 100;*/
+}
+
+#best {
+  position: absolute;
+  top: 0px;
+  left: 20px;
+}
+
+#worst {
+  position: absolute;
+  top: 0px;
+  right: 20px;
+}
+
 #prompt {
   float: left;
   position: absolute;
-  line-height: 180%;
+  line-height: 160%;
   top: 35px;
   left: 10%;
   width: 80%;
@@ -57,12 +111,13 @@ h4 {
 #sortable li 
 {
   /*position: absolute;*/
+  margin-top: 10px;
   margin-right: 8px;
   margin-left: 8px;
   padding: 1px; 
   float: left; 
-  width: 200px; 
-  height: 200px;
+  width: 180px; 
+  height: 180px;
   border-radius: 100px; 
   font-size: 4em; 
   text-align: center; 
@@ -81,12 +136,13 @@ h4 {
 #selectable li 
 {
   /*background-color: #aaa;*/
+  margin-top: 10px;
   margin-right: 8px;
   margin-left: 8px;
   padding: 1px; 
   float: left; 
-  width: 200px; 
-  height: 200px; 
+  width: 180px; 
+  height: 180px; 
   border-radius: 100px;
   font-size: 4em; 
   text-align: center;  

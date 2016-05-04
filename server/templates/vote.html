@@ -55,12 +55,58 @@
     var description = "{{ description }}";
 
     var list = []
+    var hovering = false;
     var onload = function() {
       $('#descrip').html(description);
 
       $('#1').html(generateImg(img1));
       $('#2').html(generateImg(img2));
       $('#3').html(generateImg(img3));
+
+      $(document).mousemove(function(e){
+        if (hovering) {
+          var w = $(window).width();
+          console.log(e.pageX + ", " + w)
+          if (e.pageX > w/2) {
+            $("#hover").css({left:e.pageX - 640, top:e.pageY - 350});
+          } else {
+            $("#hover").css({left:e.pageX, top:e.pageY - 350});
+          }
+        }
+      });
+
+      $('#1').hover(function() {
+        document.getElementById("hover").style.zIndex = "100";
+        hovering = true;
+        $('#hover').html(generateHoverImg(img1));
+      }, 
+      function() {
+        document.getElementById("hover").style.zIndex = "-1";
+        hovering = false;
+        $('#hover').html('');
+      });
+
+      $('#2').hover(function() {
+        document.getElementById("hover").style.zIndex = "100";
+        hovering = true;
+        $('#hover').html(generateHoverImg(img2));
+      }, 
+      function() {
+        document.getElementById("hover").style.zIndex = "-1";
+        hovering = false;
+        $('#hover').html('');
+      });
+
+      $('#3').hover(function() {
+        document.getElementById("hover").style.zIndex = "100";
+        hovering = true;
+        $('#hover').html(generateHoverImg(img3));
+      }, 
+      function() {
+        document.getElementById("hover").style.zIndex = "-1";
+        hovering = false;
+        $('#hover').html('');
+      });
 
       $('#1').click(function() {
         console.log("1 clicked");
@@ -90,6 +136,10 @@
     var generateImg = function(img) {
       return '<img class="fill" src="' + img + '">';
     }
+
+    var generateHoverImg = function(img) {
+      return '<img class="hover-fill" src="' + img + '">';
+    }    
 
     var clickedImage = function(num) {
       if (list.length <= 0) {
@@ -162,19 +212,30 @@
 
 {% include "navbar.html" %}
 
+<div id="hover">
+</div>
+
 <div class="container-fluid main" style="padding-left: 180px; padding-right: 180px;">
-  <h1>Work</h1>
-  <h3 id="descrip"></h3>
+  <div class="row">
+    <div class="col-md-10">
+      <h1>Work</h1>
+      <h3 id="descrip"></h3>
+    </div>
+    <div class="col-md-2">
+      <a class="btn btn-primary btn-lg" style="float: right; margin: 30px 0px 0px 0px;" href="/vote">Pass</a>
+    </div>
+  </div>
+
   <div class="col-md-12 well interact">
-    <div class="col-md-1">
-      <h3>Best</h3>
+    <div class="col-md-1 side">
+      <h3 id="best">Best</h3>
     </div>
     <div class="col-md-10">
       <h3 id=prompt>Click the images below to rank them from best to not so best, and double-click to remove them. You can also drag them around if you change your mind!</h3>
       <ul id="sortable"></ul>
     </div>
-    <div class="col-md-1">
-      <h3>Worst</h3>
+    <div class="col-md-1 side">
+      <h3 id="worst">Worst</h3>
     </div>
   </div>
   <br/>
@@ -192,7 +253,7 @@
     <input id='third_input' name='third' hidden="true"></input>
     <button type="submit" class="btn btn-primary btn-lg" style="float: right;">Submit</button>
   </form>
-  <button type="button" class="btn btn-info btn-lg" data-toggle="modal" style="float:left" data-target="#myModal">Report these images</button>
+  <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" style="float:left" data-target="#myModal">Report these images</button>
     <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -200,19 +261,21 @@
             <button type="button" class="close" data-dismiss="modal">&times;</button>
             <h4 class="modal-title">Why are you reporting these images?</h4>
           </div>
-          <div class="modal-body container">
+          <div class="modal-body row">
             <form action="/report" method="POST" role="form">
-              <div class="radio">
-                <label><input type="radio" name="reason" value="0"> Nudity</label>
+              <div class="form-group">
+                <div class="radio">
+                  <label><input type="radio" name="reason" value="0"> Nudity</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="reason" value="1"> Offensive</label>
+                </div>
+                <div class="radio">
+                  <label><input type="radio" name="reason" value="2"> No images</label>
+                </div>
               </div>
-              <div class="radio">
-                <label><input type="radio" name="reason" value="1"> Offensive</label>
-              </div>
-              <div class="radio">
-                <label><input type="radio" name="reason" value="2"> No images</label>
-              </div>
-              <div>
-                <button type="submit" id="submit_report" disabled="disabled" class="btn btn-primary btn-sm" style="float:left">Submit</button>
+              <div class="form-group">
+                <button type="submit" id="submit_report" disabled="disabled" class="btn btn-danger btn-sm" style="float:right">Report</button>
               </div>
             </form>
           </div>

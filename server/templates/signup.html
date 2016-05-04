@@ -3,8 +3,16 @@
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <title>PopOp - Sign Up</title>
+    <style type="text/css">
+    #footer {
+      width:100%;
+      position:absolute;
+      bottom:0;
+      left:0;
+    }
+    </style>
 </head>
-<body style="text-align: center; padding-bottom: 20px; font-family: Avenir, Helvetica;">
+<body style="text-align: center;font-family: Avenir, Helvetica;">
     
 {% include "navbar.html" %}
 
@@ -40,9 +48,9 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-                  <button type="submit" class="btn btn-primary">Sign up</button>
-                </div>
+                <!-- <div class="col-sm-offset-2 col-sm-10"> -->
+                  <button type="submit" class="btn btn-md btn-primary">Sign up</button>
+                <!-- </div> -->
               </div>
             </form>
         </div>
@@ -50,7 +58,9 @@
     </div>
 </div>
 
-{% include "footer.html" %}
+<div id="footer">
+  {% include "footer.html" %}  
+</div>
 
 </body>
 </html>
