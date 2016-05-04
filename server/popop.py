@@ -101,13 +101,12 @@ def logout():
 def report():
     print "works"
     if 'set_id' in session:
-        user_id = "1"
         set_id = session['set_id']
         reason = request.form['reason']
         description = ""
-        if(database.createReport(user_id, set_id, reason, description)):
-            flask.flash("report successful")
-            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+        if(database.createReport(flask_login.current_user.id, set_id, reason, description)):
+            flash("Report successful!")
+            return redirect(url_for('vote'))
     abort(400)
 
 @app.route("/vote", methods=['GET', 'POST'])
@@ -145,7 +144,7 @@ def upload():
         return render_template('dropzone.html')
     
     c = boto.connect_s3()
-    b = c.get_bucket('popop-test')
+    b = c.get_bucket('popop-uploads')
 
     description = request.form.get('description')
 
@@ -159,7 +158,7 @@ def upload():
             key.content_type= file.content_type
             key.set_contents_from_string(file.read())
             key.set_acl('public-read')
-            image_files.append('https://s3.amazonaws.com/popop-test/' + dst_file)
+            image_files.append('https://s3.amazonaws.com/popop-uploads/' + dst_file)
 
     if len(image_files) >= 3:
         set_id = database.newRequest(flask_login.current_user.id, image_files, description)
@@ -173,10 +172,10 @@ def upload():
 @flask_login.login_required
 def profile():
     name = flask_login.current_user.first_name + " " + flask_login.current_user.last_name
-    stats = database.getStatsForUser(1)#flask_login.current_user.id)
+    stats = database.getStatsForUser(flask_login.current_user.id)
     print stats
 
-    return render_template('profile.html', stats=stats)
+    return render_template('profile.html', name=name, stats=stats)
 
 if __name__ == "__main__":
     app.run()
