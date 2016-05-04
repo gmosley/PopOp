@@ -101,13 +101,12 @@ def logout():
 def report():
     print "works"
     if 'set_id' in session:
-        user_id = "1"
         set_id = session['set_id']
         reason = request.form['reason']
         description = ""
-        if(database.createReport(user_id, set_id, reason, description)):
-            flask.flash("report successful")
-            return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
+        if(database.createReport(flask_login.current_user.id, set_id, reason, description)):
+            flash("Report successful!")
+            return redirect(url_for('vote'))
     abort(400)
 
 @app.route("/vote", methods=['GET', 'POST'])
