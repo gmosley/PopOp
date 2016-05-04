@@ -61,15 +61,18 @@
 
       if(localStorage.getItem("zoom") === null){
         localStorage.setItem("zoom", false);
+        $('#zoom-box').prop('checked', false);
+      } else if (localStorage.getItem("zoom") == "true") {
+        $('#zoom-box').prop('checked', true);
+      } else {
+        $('#zoom-box').prop('checked', false);
       }
 
-      console.log("STORAGE IS " + localStorage.getItem("zoom"));
       
-      $('#zoom-box').prop('checked', false);
 
       $('#zoom-box').change(function() {
         var checked = $('#zoom-box').is(':checked');
-        console.log(checked);
+        console.log("CHANGE " + checked);
         localStorage.setItem("zoom", checked);
       });
 
@@ -106,9 +109,11 @@
       });
 
       $('#2').hover(function() {
-        document.getElementById("hover").style.zIndex = "100";
-        hovering = true;
-        $('#hover').html(generateHoverImg(img2));
+        if ($('#zoom-box').is(':checked')) {
+          document.getElementById("hover").style.zIndex = "100";
+          hovering = true;
+          $('#hover').html(generateHoverImg(img2));
+        }
       }, 
       function() {
         document.getElementById("hover").style.zIndex = "-1";
@@ -117,9 +122,11 @@
       });
 
       $('#3').hover(function() {
-        document.getElementById("hover").style.zIndex = "100";
-        hovering = true;
-        $('#hover').html(generateHoverImg(img3));
+        if ($('#zoom-box').is(':checked')) {
+          document.getElementById("hover").style.zIndex = "100";
+          hovering = true;
+          $('#hover').html(generateHoverImg(img3));
+        }
       }, 
       function() {
         document.getElementById("hover").style.zIndex = "-1";
