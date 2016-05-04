@@ -118,20 +118,21 @@ def vote():
     if request.method == 'POST':
         if 'set_id' in session and 'job_id' in session:
             # record the vote
+            session['working'] = False
             database.createResult(session['job_id'], session['set_id'], flask_login.current_user.id, request.form['first'],
-                request.form['second'], request.form['third'])
+                request.form['second'], request.form['third'], session['perm_num'])
         else:
-            abort(400) 
-    
-    # TODO: parse args to get tags
+            abort(400)
 
     # no matter what, get a new set of images
-    result = database.getImagesforNextJob()
+    result = database.getImagesforNextJob(flask_login.current_user.id)
     print result
     if result:
-        job_id, set_id, description, images = result
+        job_id, set_id, perm_num, description, images = result
         session['job_id'] = job_id
         session['set_id'] = set_id
+        session['perm_num'] = perm_num
+        session['working'] = True
         return render_template('vote.html', description=description,
             img_1=images[0], img_2=images[1], img_3=images[2])
 

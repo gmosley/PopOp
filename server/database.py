@@ -2,6 +2,8 @@ from sqlalchemy import create_engine, event
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql.expression import func
+
 from datetime import datetime
 from Crypto.Hash import SHA256
 
@@ -117,18 +119,20 @@ def generateJobs(imageset_id):
         print e
         return False
 
-# Gets images for next availiable job
-# Takes in a tag, which is empty by default
+# Gets images for next available job
+# Takes in a user id and a tag, which is empty by default
 # Returns: List of image addresses, False if failed
-def getImagesforNextJob(tag=''):
+def getImagesforNextJob(user_id, tag=''):
     try:
-        job = Job.query.filter(Job.done == False).first()
+        perms = Result.query.with_entities(Result.set_id, Result.perm_num).filter(Result.worker_id == user_id).all()
+        perms = set(perms)
+        job = Job.query.filter(Job.done == False and (Job.set_id, Job.perm_num) not in perms).order_by(func.random()).first()
         description = ImageSet.query.with_entities(ImageSet.description).filter(ImageSet.id == job.set_id).first()[0]
         images = []
         images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img1).first()[0])
         images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img2).first()[0])
         images.append(Image.query.with_entities(Image.address).filter(Image.id == job.img3).first()[0])
-        return (job.id, job.set_id, description, images)
+        return (job.id, job.set_id, job.perm_num, description, images)
     except Exception, e:
         print e
         return False
@@ -136,12 +140,12 @@ def getImagesforNextJob(tag=''):
 # Create a result, expects job id, worker id, and the order
 # of the images.
 # Returns: The id of the result, or False if failed
-def createResult(job_id, set_id, worker_id, first, second, third):
+def createResult(job_id, set_id, worker_id, first, second, third, perm_num):
     try:
         job = Job.query.filter(Job.id == job_id).first()
         job.done = True
         finish_time = datetime.now()
-        result = Result(set_id, worker_id, finish_time, first, second, third)
+        result = Result(set_id, worker_id, finish_time, first, second, third, perm_num)
 
         db_session.add(job)
         db_session.add(result)
