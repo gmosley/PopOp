@@ -145,7 +145,7 @@ def upload():
         return render_template('dropzone.html')
     
     c = boto.connect_s3()
-    b = c.get_bucket('popop-test')
+    b = c.get_bucket('popop-uploads')
 
     description = request.form.get('description')
 
@@ -159,7 +159,7 @@ def upload():
             key.content_type= file.content_type
             key.set_contents_from_string(file.read())
             key.set_acl('public-read')
-            image_files.append('https://s3.amazonaws.com/popop-test/' + dst_file)
+            image_files.append('https://s3.amazonaws.com/popop-uploads/' + dst_file)
 
     if len(image_files) >= 3:
         set_id = database.newRequest(flask_login.current_user.id, image_files, description)
@@ -173,10 +173,10 @@ def upload():
 @flask_login.login_required
 def profile():
     name = flask_login.current_user.first_name + " " + flask_login.current_user.last_name
-    stats = database.getStatsForUser(1)#flask_login.current_user.id)
+    stats = database.getStatsForUser(flask_login.current_user.id)
     print stats
 
-    return render_template('profile.html', stats=stats)
+    return render_template('profile.html', name=name, stats=stats)
 
 if __name__ == "__main__":
     app.run()
