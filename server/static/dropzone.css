@@ -2,7 +2,7 @@
  * The MIT License
  * Copyright (c) 2012 Matias Meno <m@tias.me>
  */
-
+html { background-color: #222; }
 body {
     /*background-color: #eee;*/
     font-family: Avenir, Helvetica;

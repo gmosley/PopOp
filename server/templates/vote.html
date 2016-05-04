@@ -247,13 +247,22 @@
     </ul>
   </div>
   <div class="col-md-12" id="error_div"></div>
-  <form method='post' id="submit_form">
-    <input id='first_input' name='first' hidden="true"></input>
-    <input id='second_input' name='second' hidden="true"></input>
-    <input id='third_input' name='third' hidden="true"></input>
-    <button type="submit" class="btn btn-primary btn-lg" style="float: right;">Submit</button>
-  </form>
-  <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" style="float:left" data-target="#myModal">Report these images</button>
+  <div class="row">
+    <div class="col-md-3">
+      <button type="button" class="btn btn-danger btn-lg" data-toggle="modal" style="float:left" data-target="#myModal">Report these images</button>
+    </div>
+    <div class="col-md-6">
+      
+    </div>
+    <div class="col-md-3">
+      <form method='post' id="submit_form">
+        <input id='first_input' name='first' hidden="true"></input>
+        <input id='second_input' name='second' hidden="true"></input>
+        <input id='third_input' name='third' hidden="true"></input>
+        <button type="submit" class="btn btn-primary btn-lg" style="float: right;">Submit</button>
+      </form>
+    </div>
+  </div>
     <div class="modal fade" id="myModal" role="dialog">
       <div class="modal-dialog">
         <div class="modal-content">
