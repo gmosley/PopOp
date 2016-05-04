@@ -48,6 +48,7 @@
 
   <title>Vote</title>
   <script type="text/javascript">
+    var zoom = false;
     var img1 = "{{ img_1 }}";
     var img2 = "{{ img_2 }}";
     var img3 = "{{ img_3 }}";
@@ -57,6 +58,21 @@
     var list = []
     var hovering = false;
     var onload = function() {
+
+      if(localStorage.getItem("zoom") === null){
+        localStorage.setItem("zoom", false);
+      }
+
+      console.log("STORAGE IS " + localStorage.getItem("zoom"));
+      
+      $('#zoom-box').prop('checked', false);
+
+      $('#zoom-box').change(function() {
+        var checked = $('#zoom-box').is(':checked');
+        console.log(checked);
+        localStorage.setItem("zoom", checked);
+      });
+
       $('#descrip').html(description);
 
       $('#1').html(generateImg(img1));
@@ -66,7 +82,7 @@
       $(document).mousemove(function(e){
         if (hovering) {
           var w = $(window).width();
-          console.log(e.pageX + ", " + w)
+          // console.log(e.pageX + ", " + w)
           if (e.pageX > w/2) {
             $("#hover").css({left:e.pageX - 640, top:e.pageY - 350});
           } else {
@@ -76,9 +92,12 @@
       });
 
       $('#1').hover(function() {
-        document.getElementById("hover").style.zIndex = "100";
-        hovering = true;
-        $('#hover').html(generateHoverImg(img1));
+        if ($('#zoom-box').is(':checked')) {
+          console.log(localStorage.zoom)
+          document.getElementById("hover").style.zIndex = "100";
+          hovering = true;
+          $('#hover').html(generateHoverImg(img1));
+        }
       }, 
       function() {
         document.getElementById("hover").style.zIndex = "-1";
@@ -222,6 +241,7 @@
       <h3 id="descrip"></h3>
     </div>
     <div class="col-md-2">
+      <input type="checkbox" id="zoom-box" checked>Zoom on hover<br>
       <a class="btn btn-primary btn-lg" style="float: right; margin: 30px 0px 0px 0px;" href="/vote">Pass</a>
     </div>
   </div>
