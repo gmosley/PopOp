@@ -54,8 +54,6 @@ def signup():
     if request.method == 'GET':
         return render_template('signup.html')
 
-    print "signup here"
-    print request.form
     first = request.form['first_name']
     last = request.form['last_name']
     email = request.form['email']
@@ -63,9 +61,9 @@ def signup():
     print (first, last, email, password)
     if len(first) > 0 and len(last) > 0 and len(email) > 0 and len(password) > 0:
         noerror, msg = database.signupUser(first, last, email, password)
-        print (noerror, msg)
         if noerror:
-            print "signed up user " + email
+            user = User(email, first, last)
+            flask_login.login_user(user)
             return redirect(url_for('index'))
         print msg
         return json.dumps({'error': True, 'error-descrip':'This email has already been registered.'}), \
@@ -169,6 +167,16 @@ def upload():
         return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
     else:
         return "Not enough image files!", 400
-    
+
+
+@app.route("/profile")
+@flask_login.login_required
+def profile():
+    name = flask_login.current_user.first_name + " " + flask_login.current_user.last_name
+    stats = database.getStatsForUser(1)#flask_login.current_user.id)
+    print stats
+
+    return render_template('profile.html', stats=stats)
+
 if __name__ == "__main__":
     app.run()

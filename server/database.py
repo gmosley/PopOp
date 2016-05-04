@@ -157,13 +157,23 @@ def createResult(job_id, set_id, worker_id, first, second, third, perm_num):
 
 # Gets image sets owned by a user.
 # Returns: A list of tuples in the format (set_id, user_id, description, tag)
-def getSetsForUser(user_id):
+def getStatsForUser(user_id):
     try:
-        sets = ImageSet.query.filter(ImageSet.user_id == user_id).all()
-        l = []
-        for s in sets:
-            l.append((s.id, s.user_id, s.description, s.tag))
-        return l
+        image_sets = ImageSet.query.filter(ImageSet.user_id == user_id).all()
+        stats = []
+        for image_set in image_sets:
+            jobs = Job.query.filter(Job.set_id == image_set.id).all()
+            jobcount = len(jobs)
+            complete = 0
+            for job in jobs:
+                if job.done:
+                    complete += 1
+            print str(complete) + "/" + str(jobcount) + " complete"
+            stats.append({
+                'description': image_set.description,
+                'jobcount': jobcount,
+                'complete': complete})
+        return stats
     except Exception, e:
         print e
         return False
