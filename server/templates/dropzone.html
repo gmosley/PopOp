@@ -22,21 +22,34 @@
 {% include "navbar.html" %}
 
   <div class="container-fluid">
-    <div class="title col-md-12">
-      <h2><b> Submit images to be rated!</b></h2>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="title col-md-10">
+        <h1><b>Submit images to be rated!</b></h1>
+      </div>
+      <div class="col-md-1"></div>
     </div>
-    <div class="col-md-12">
-      <h4>Submit between 3 and 10 images to be ranked by the crowd!</h4>
-      <h4>To upload files, click the area above and select the photos you want to be sorted by the crowd.</h4>
-      <h4>In the text box, type out the criteria you want your photos sorted by.</h4>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10">
+        <h3>Submit between 3 and 10 images to be ranked by the crowd!</h3>
+        <h3>To upload files, click the area above and select the photos you want to be sorted by the crowd.</h3>
+        <h3>In the text box, type out the criteria you want your photos sorted by.</h3>
+      </div>
+      <div class="col-md-1"></div>
     </div>
-    <div class="col-md-12">
-      <form id="my-awesome-dropzone" action="/upload" class="dropzone form-horizontal form-group">
-        <label for="requirement">Rating Criteria</label>
-        <input class="form-control" type="text" name="description" id="requirement">
-        <button id="submit" class="btn btn-default" type="submit">Get PopOp'd!</button>
-        <div class="dropzone-previews" style="position: absolute;"></div>
-      </form>
+    <div class="row">
+      <div class="col-md-1"></div>
+      <div class="col-md-10 well" style="position: relative; padding: 15px;">
+        <form id="my-awesome-dropzone" action="/upload" class="dropzone form-horizontal form-group">
+          <div class="form-group" style="margin-bottom: 20px;">
+            <input class="form-control" type="text" name="description" id="requirement" style="height: 45px;" placeholder="How should people rate these?">
+          </div>
+          <button id="submit" class="btn btn-lg btn-default" type="submit">Get PopOp'd!</button>
+          <div class="dropzone-previews" style="position: absolute;"></div>
+        </form>
+      </div>
+      <div class="col-md-1"></div>
     </div>
   </div>
 
