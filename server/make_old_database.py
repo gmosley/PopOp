@@ -10,10 +10,7 @@ import models
 from database import db_session
 
 # create a user. for now, this is our only user
-u = models.User("joe", "doe", "email@seas.upenn.edu", "password")
-# objects must be added and commited to the database
-db_session.add(u)
-db_session.commit()'''
+database.signupUser("Joe", "Doe", "email@seas.upenn.edu", "password")'''
 
 mapping = defaultdict(list)
 
@@ -26,7 +23,7 @@ with open('images.csv', 'rb') as images_csv:
 with open('imagesets.csv', 'rb') as imagesets_csv:
     imagesets = csv.DictReader(imagesets_csv)
     for imageset in imagesets:
-        print '\nimgset = models.ImageSet(u.id, "{}")'.format(imageset['description'])
+        print '\nimgset = models.ImageSet(1, "{}")'.format(imageset['description'])
         print 'db_session.add(imgset)'
         print 'db_session.commit()'
         for url in mapping[imageset['id']]:

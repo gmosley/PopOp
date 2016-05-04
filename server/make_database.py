@@ -6,14 +6,16 @@ import models
 
 from database import db_session
 
-# create a user. for now, this is our only user
-u = models.User("joe", "doe", "email@seas.upenn.edu", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3")
-# objects must be added and commited to the database
-db_session.add(u)
-db_session.commit()
+database.signupUser("Old", "Photos", "email@seas.upenn.edu", "password")
+
+# # create a user. for now, this is our only user
+# u = models.User("joe", "doe", "email@seas.upenn.edu", "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3")
+# # objects must be added and commited to the database
+# db_session.add(u)
+# db_session.commit()
 
 # create a image set of logos
-i1 = models.ImageSet(u.id, "Vote by the best logo")
+i1 = models.ImageSet(1, "Vote by the best logo")
 db_session.add(i1)
 db_session.commit()
 
@@ -29,7 +31,7 @@ db_session.add(img3)
 db_session.add(img4)
 db_session.commit()
 
-i2 = models.ImageSet(u.id, "CATS CATS CATS")
+i2 = models.ImageSet(1, "CATS CATS CATS")
 db_session.add(i2)
 db_session.commit()
 
