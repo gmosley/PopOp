@@ -54,8 +54,6 @@ def signup():
     if request.method == 'GET':
         return render_template('signup.html')
 
-    print "signup here"
-    print request.form
     first = request.form['first_name']
     last = request.form['last_name']
     email = request.form['email']
@@ -63,9 +61,9 @@ def signup():
     print (first, last, email, password)
     if len(first) > 0 and len(last) > 0 and len(email) > 0 and len(password) > 0:
         noerror, msg = database.signupUser(first, last, email, password)
-        print (noerror, msg)
         if noerror:
-            print "signed up user " + email
+            user = User(email, first, last)
+            flask_login.login_user(user)
             return redirect(url_for('index'))
         print msg
         return json.dumps({'error': True, 'error-descrip':'This email has already been registered.'}), \
