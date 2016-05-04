@@ -168,6 +168,16 @@ def upload():
         return json.dumps({'success':True}), 200, {'ContentType':'application/json'}
     else:
         return "Not enough image files!", 400
-    
+
+
+@app.route("/profile")
+@flask_login.login_required
+def profile():
+    name = flask_login.current_user.first_name + " " + flask_login.current_user.last_name
+    stats = database.getStatsForUser(1)#flask_login.current_user.id)
+    print stats
+
+    return render_template('profile.html', stats=stats)
+
 if __name__ == "__main__":
     app.run()
