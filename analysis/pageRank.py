@@ -73,8 +73,6 @@ with open('results.csv', 'rb') as csvfile:
         csvwriter = csv.writer(outputfile, delimiter=',', quoting=csv.QUOTE_MINIMAL)
         reader = csv.DictReader(csvfile)
 
-
-
         csvwriter.writerow(['set_id', 'description', 'result'])
         set_id = -1
 
@@ -89,9 +87,9 @@ with open('results.csv', 'rb') as csvfile:
                 images_urls[snd] = row['second_addr']
             if thd not in images_urls:
                 images_urls[thd] = row['third_addr']
-
-            if (set_id != row['set_id']):
-                set_id = row['set_id']
+            
+            set_id = row['set_id']
+            if (set_id not in set_ids_to_results):
                 set_ids_to_results[set_id] = [];
             set_ids_to_results[set_id].append((fst, snd, thd))
 
@@ -119,7 +117,7 @@ with open('results.csv', 'rb') as csvfile:
             # make matrix
             for res in set_ids_to_results[set_id]:
                 a[nodes[res[1]]][nodes[res[0]]] += 1
-                a[nodes[res[2]]][nodes[res[0]]] += 1
+                # a[nodes[res[2]]][nodes[res[0]]] += 1
                 a[nodes[res[2]]][nodes[res[1]]] += 1
             A = np.matrix(a)
             print A
