@@ -10,7 +10,7 @@ from models import ImageSet, Image, Job, Result, User
 
 def export_results():
     results = Result.query.all()
-    with open('results.csv', 'wb') as csvfile:
+    with open('../analysis/results.csv', 'wb') as csvfile:
         csvwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
         csvwriter.writerow(['id', 'set_id', 'worker_id', 'description', 'first', 'second', 'third', 'first_addr', 'second_addr', 'third_addr'])
         for row in results:
@@ -26,4 +26,13 @@ def export_results():
             if first[0] in imgs and second[0] in imgs and third[0] in imgs:
                 csvwriter.writerow([row.id, row.set_id, row.worker_id, description, first[0], second[0], third[0], first[1], second[1], third[1]])
 
+def export_imagesets():
+    imagesets = ImageSet.query.all()
+    with open('../analysis/imagesets.csv', 'wb') as csvfile:
+        csvwriter = csv.writer(csvfile, delimiter=',', quotechar='|', quoting=csv.QUOTE_MINIMAL)
+        csvwriter.writerow(['id','user_id','description','tag'])
+        for imgset in imagesets:
+            csvwriter.writerow([imgset.id, imgset.user_id, imgset.description, imgset.tag])
+
 export_results()
+export_imagesets()

@@ -1,10 +1,11 @@
-education	16	2
-food and drink	9	0
-travel	8	1
-art and entertainment	32	1
-style and fashion	15	0
-technology and computing	9	0
-business and industrial	24	3
-hobbies and interests	28	2
-pets	23	1
-sports	6	0
+['education', 60, 18],
+['food and drink', 105, 42],
+['travel', 19, 8],
+['art and entertainment', 180, 72],
+['style and fashion', 57, 24],
+['technology and computing', 44, 19],
+['business and industrial', 121, 47],
+['hobbies and interests', 143, 52],
+['pets', 75, 39],
+['sports', 41, 10],
+['health and fitness', 10, 5],
