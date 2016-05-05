@@ -7,14 +7,32 @@
     <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="       crossorigin="anonymous"></script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+
+    <style type="text/css">
+    html {
+      position: relative;
+      min-height: 100%;
+      font-family: Avenir, Helvetica;
+    }
+    body {
+      /* Margin bottom by footer height */
+      margin-bottom: 200px;
+    }
+    #footer {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      /* Set the fixed height of the footer here */
+      height: 200px;
+    }
+    </style>
 </head>
 <body>
+
 {% include "navbar.html" %}
 
-<div class="container-fluid" style="margin-top: 20px;">
-    <div class="col-md-1">
-        
-    </div>
+<div class="container-fluid" id="content" style="margin-top: 20px;">
+    <div class="col-md-1"></div>
     <div class="col-md-10">
         <div class="col-md-4">
             <h1>{{ name }}</h1>
@@ -41,14 +59,15 @@
                         </td>
                         </tr>
                     {% endfor %}
+                </tbody>
             </table>
         </div>
     </div>
-    <div class="col-md-1">
-        
-    </div>
+    <div class="col-md-1"></div>
 </div>
 
-{% include "footer.html" %}
+{% include 'footer.html' %}
+
+</div>
 </body>
 </html>
