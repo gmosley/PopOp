@@ -5,6 +5,7 @@ import json
 import os
 import database
 import boto
+import page_rank
 from Crypto.Hash import SHA256
 from models import User as dbuser
 from uuid import uuid4
@@ -174,8 +175,27 @@ def profile():
     name = flask_login.current_user.first_name + " " + flask_login.current_user.last_name
     stats = database.getStatsForUser(flask_login.current_user.id)
     print stats
-
     return render_template('profile.html', name=name, stats=stats)
+
+@app.route("/imageset/<int:set_id>")
+@flask_login.login_required
+def imageset(set_id):
+    imgset = database.getImageSet(set_id)
+    if flask_login.current_user.id == imgset.user_id:        
+        dbimgs = database.getImagesForSet(set_id)
+        stats = database.getStatsForImageSet(set_id)
+        rankings = None
+        if stats[0] == stats[1]: #if completed get page rank
+            rankings, agreement = page_rank.pageRankForSet(set_id)
+        print rankings
+        print stats
+        imgs = []
+        for img in dbimgs:
+            imgs.append(img.address)
+        return render_template('imageset.html', description=imgset.description, 
+            imgs=imgs, count=stats[0], complete=stats[1], percent=stats[2], rankings=rankings, agreement=agreement)
+    flash("You don't own this image set.")
+    return redirect(url_for('index'))
 
 if __name__ == "__main__":
     app.run()

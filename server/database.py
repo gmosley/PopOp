@@ -155,6 +155,37 @@ def createResult(job_id, set_id, worker_id, first, second, third, perm_num):
         print e
         return False
 
+def getImageSet(set_id):
+    try:
+        imageset = ImageSet.query.filter(ImageSet.id == set_id).first()
+        return imageset
+    except Exception, e:
+        print e
+        return False
+
+def getImagesForSet(set_id):
+    try:
+        images = Image.query.filter(Image.set_id == set_id).all()
+        return images
+    except Exception, e:
+        print e
+        return False
+
+def getStatsForImageSet(set_id):
+    try:
+        imgset = ImageSet.query.filter(ImageSet.id == set_id).first()
+        jobs = Job.query.filter(Job.set_id == set_id).all()
+        jobcount = len(jobs)
+        complete = 0
+        for j in jobs:
+            if j.done:
+                complete += 1
+        percent = int(float(complete)/jobcount * 100)
+        return [jobcount, complete, percent]
+    except Exception, e:
+        print e
+        return False
+
 # Gets image sets owned by a user.
 # Returns: A list of tuples in the format (set_id, user_id, description, tag)
 def getStatsForUser(user_id):
@@ -169,10 +200,13 @@ def getStatsForUser(user_id):
                 if job.done:
                     complete += 1
             print str(complete) + "/" + str(jobcount) + " complete"
+            percent = int(float(complete)/jobcount * 100)
             stats.append({
                 'description': image_set.description,
                 'jobcount': jobcount,
-                'complete': complete})
+                'complete': complete,
+                'percent': percent,
+                'id': image_set.id})
         return stats
     except Exception, e:
         print e
