@@ -108,6 +108,6 @@ for label in ids_by_label :
 	agreement_by_label[label] = total_true, 3 * total - total_true
 
 for label in agreement_by_label:
-	print label.encode('utf-8') + '\t' + \
-	str(agreement_by_label[label][0]) + '\t' + \
-	str(agreement_by_label[label][1])
+	print "['" + label.encode('utf-8') + "', " + \
+	str(agreement_by_label[label][0]) + ', ' + \
+	str(agreement_by_label[label][1]) + '],'
