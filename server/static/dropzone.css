@@ -2,21 +2,25 @@
  * The MIT License
  * Copyright (c) 2012 Matias Meno <m@tias.me>
  */
-
+html { background-color: #222; }
 body {
-    background-color: #ecf0f1;
+    /*background-color: #eee;*/
     font-family: Avenir, Helvetica;
 }
 
+h3 {
+  color: #777;
+  line-height: 90%;
+  font-weight: lighter;
+}
+
 #submit {
-  margin: auto;
   background-color: #E9D460;
-  padding: 20px 32px;
-  text-align: center;
-  border: none;
-  text-decoration: none;
-  font-size: 16px;
-  border-radius: 8px;
+  position: absolute;
+  bottom: 25px;
+  right: 25px;
+  /*float: right;*/
+  /*color: #eee;*/
 }
 
 @-webkit-keyframes passing-through {
@@ -192,10 +196,14 @@ body {
 }
 
 .dropzone {
+  margin: 0px;
   min-height: 300px;
-  border: 2px solid rgba(0, 0, 0, 0.3);
-  background: #E4F1FE;
-  padding: 20px 20px; }
+  border: 2px dashed rgba(0, 0, 0, 0.3);
+  background: transparent;
+  padding: 20px 20px; 
+}
+
+
   .dropzone.dz-clickable {
     cursor: pointer; }
     .dropzone.dz-clickable * {

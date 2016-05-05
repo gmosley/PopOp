@@ -1,22 +1,54 @@
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ name }}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
-<script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="   crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.3.min.js" integrity="sha256-a23g1Nt4dtEYOj7bR+vTu7+T8VP13humZFBJNIYoEJo="       crossorigin="anonymous"></script>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</head>
+<body>
 {% include "navbar.html" %}
-<p>Welcome {{ name }}</p>
 
-<tr>
-<table border="1">
-<th>Description</th>
-<th>Job Status</th>
-</tr>
-    {% for imageset in stats %}
-        <tr>
-        <td>{{ imageset.description }}</td>
-        <td>{{ imageset.complete }}/{{ imageset.jobcount }}</td>
-        </tr>
-    {% endfor %}
-</table>
+<div class="container-fluid" style="margin-top: 20px;">
+    <div class="col-md-1">
+        
+    </div>
+    <div class="col-md-10">
+        <div class="col-md-4">
+            <h1>{{ name }}</h1>
+        </div>
+        <div class="col-md-8">
+            <h1>Current Requests</h1>
+            <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Description</th>
+                    <th>Job Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {% for imageset in stats|sort(attribute='complete', reverse=True) %}
+                        <tr>
+                        <td>{{ imageset.description }}</td>
+                        <td style="width: 300px;">
+                            {{ imageset.complete }}/{{ imageset.jobcount }} jobs completed
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="min-width: 0.5em; width: {{ imageset.complete * 100 // imageset.jobcount }}%;">
+                                </div>
+                            </div>
+                        </td>
+                        </tr>
+                    {% endfor %}
+            </table>
+        </div>
+    </div>
+    <div class="col-md-1">
+        
+    </div>
+</div>
 
 {% include "footer.html" %}
+</body>
+</html>
